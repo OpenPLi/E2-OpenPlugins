@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+<feeds>
+	<feed>
+		<name>[NL] SAT: PLi Dreambox Algemeen</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=2</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM500</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=8</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM500Plus</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=45</url>
+	</feed>	
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM56x0</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=7</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM600</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=37</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM7000</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=6</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM7020</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=5</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM7025 en DM7025Plus</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=50</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM800</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=55</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images voor de DM8000</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=58</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi Dreambox General</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=28</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM500</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=32</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM500Plus</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=47</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM56x0</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=31</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM600</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=36</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM7000</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=30</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM7020</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=29</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images for the DM7025 and DM7025Plus</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=51</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images for the DM800</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=56</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: PLi images for the DM8000</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=59</url>
+	</feed>
+	<feed>
+		<name>[EN] SAT: PLi images: Third-Party Development</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=48</url>
+	</feed>
+	<feed>
+		<name>[D] SAT: PLi images: Enigma1 algemein</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=53</url>
+	</feed>
+	<feed>
+		<name>[D] SAT: PLi images: Enigma2 algemein</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=54</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: Satellietforum nieuws</name>
+		<url>http://www.satellietforum.com/extra/feed.php</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: Totaal TV</name>
+		<url>http://www.totaaltv.nl/rss/tvsatellitenieuws.php</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: Satellite Magazine</name>
+		<url>http://www.satellitemagazine.com/rss/feed.php</url>
+	</feed>
+	<feed>
+		<name>[NL] SAT: Dutchmedia.web-log.nl</name>
+		<url>http://dutchmedia.nl/blog/?feed=rss2#</url>
+	</feed>
+	<feed> 
+		<name>[EN/NL] SAT: HarBerRi.org</name> 
+		<url>http://www.harberri.org/index2.php?option=com_rss&#38;no_html=1</url> 
+	</feed>
+	<feed>
+		<name>[DE] SAT: Digitalfernsehen</name>
+		<url>http://www.digitalfernsehen.de/rss/rss.xml</url>
+	</feed>
+	<feed>
+		<name>[DE] SAT: Satellifax</name>
+		<url>http://www.satnews.de/schlagzeilen.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: Geenstijl</name>
+		<url>http://www.geenstijl.nl/index.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: Sp!tsnet</name>
+		<url>http://www.spitsnieuws.nl/index.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: Nu.nl Algemeen</name>
+		<url>http://www.nu.nl/deeplink_rss2/index.jsp?r=Algemeen</url>
+	</feed>	
+	<feed>
+		<name>[NL] NIEUWS: Nu.nl Economie </name>
+		<url>http://www.nu.nl/deeplink_rss2/index.jsp?r=Economie</url>
+	</feed>	
+	<feed>
+		<name>[NL] NIEUWS: Nu.nl Internet</name>
+		<url>http://www.nu.nl/deeplink_rss2/index.jsp?r=Internet</url>
+	</feed>	
+	<feed>
+		<name>[NL] NIEUWS: Nu.nl Sport</name>
+		<url>http://www.nu.nl/deeplink_rss2/index.jsp?r=Sport</url>
+	</feed>	
+	<feed>
+		<name>[NL] NIEUWS: Nieuws.nl</name> 
+		<url>http://www.nieuws.nl/rss</url> 
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: RTL Nieuws</name>
+		<url>http://www.rtl.nl/service/rss/rtlnieuws/index.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: RTL-Z (Beurs)nieuws</name>
+		<url>http://www.rtl.nl/service/rss/rtlz/index.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: NOS Nieuws</name>
+		<url>http://feeds.nos.nl/nosnieuws</url>
+	</feed>
+	<feed>
+		<name>[NL] NIEUWS: FOK!frontpage Nieuws</name>
+		<url>http://rss.fok.nl/feeds/nieuws</url>
+	</feed>
+	<feed>
+		<name>[NL] WEER/VERKEER: Weersverwachting KNMI</name>
+		<url>http://www.knmi.nl/rssfeeds/knmi-rssweer.cgi</url>
+	</feed>
+	<feed>
+		<name>[BE] NIEUWS: VRT Nieuws</name>
+		<url>http://www.deredactie.be/cm/vrtnieuws?mode=atom</url>
+	</feed>	
+	<feed>
+		<name>[BE] NIEUWS: Het laatste nieuws</name>
+		<url>http://www.hln.be/rss.xmlhttp://www.hln.be/nieuws/</url>
+	</feed>
+	<feed>
+		<name>[BE] NIEUWS: Het nieuwsblad regionieuws</name>
+		<url>http://www.nieuwsblad.be/rss.aspx?section=regio&#38;subsection=wr</url>
+	</feed>	        
+	<feed>
+		<name>[BE] NIEUWS: De Standaard</name>
+		<url>http://feeds.feedburner.com/dso-front</url>
+	</feed>
+	<feed>
+		<name>[BE] NIEUWS: De tijd</name>
+		<url>http://www.tijd.be/rss/nieuws.xml</url>
+	</feed>
+	<feed>
+		<name>[BE] NIEUWS: demorgen.be</name>
+		<url>http://www.demorgen.be/rss.xml</url>
+	</feed>        
+	<feed>
+		<name>[BE] NIEUWS: demorgen.be multimedia</name>
+		<url>http://www.demorgen.be/nieuws/multimedia/rss.xml</url>
+	</feed>         
+ 	<feed>
+		<name>[BE] NIEUWS: demorgen.be wetenschap</name>
+		<url>http://www.demorgen.be/nieuws/wetenschap/rss.xml</url>
+	</feed>
+	<feed>
+		<name>[BE] NIEUWS: Trends</name>
+		<url>http://www.trends.be/feeds/4-1438-Trends.be%20-%20economie-section-rss2.0.xml</url>
+	</feed>        
+	<feed>
+		<name>[BE] OVERIG: Testaankoop</name>
+		<url>http://www.test-aankoop.be/rss/show/17297.xml</url>
+	</feed>  
+	<feed>
+		<name>[EN] WEATHER/TRAFFIC: Recent earthquakes - ORFEUS</name>
+		<url>http://www.orfeus-eu.org/orfeus-rss.xml</url> 
+	</feed>
+	<feed>
+		<name>[EN] NEWS: CNN world news</name>
+		<url>http://rss.cnn.com/rss/edition_world.rss</url>
+	</feed>
+	<feed>
+		<name>[EN] NEWS: CNN europe news</name>
+		<url>http://rss.cnn.com/rss/edition_europe.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] MEDIA: Omroep.nl</name>
+		<url>http://portal.omroep.nl/rss.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] MEDIA: Films op TV nu </name>
+		<url>http://rss.optv.nu/films.php</url>
+	</feed>
+	<feed>
+		<name>[NL] MEDIA: Films op TV</name>
+		<url>http://feeds.feedburner.com/filmtotaal/ajvt</url>
+	</feed>
+	<feed>
+		<name>[NL] ICT: Tweakers.net Mixed RSS Feed</name>
+		<url>http://feeds.feedburner.com/tweakers/mixed</url>
+	</feed>
+	<feed>
+		<name>[NL] ICT: Webwereld Algemeen</name>
+		<url>http://feeds.webwereld.nl/webwereld</url>
+	</feed>
+  	<feed>
+		<name>[NL] ICT: De waarschuwingsdienst.nl</name>
+		<url>http://www.waarschuwingsdienst.nl/rss.xml</url>
+	</feed>
+	<feed>
+  		<name>[NL] ICT: Security.nl</name> 
+  		<url>http://www.security.nl/headlines.xml</url> 
+	</feed>
+	<feed>
+	 	<name>[NL] ICT: Frist.com</name> 
+	 	<url>http://www.frsirt.com/exploits.xml</url> 
+	</feed>
+	<feed>
+		<name>[NL] ICT: Pocket PC Club</name>
+		<url>http://feeds.feedburner.com/Pocketinfo?format=xml</url>
+	</feed>
+	<feed> 
+		<name>[NL] ICT: HCCmagazine (reageert traag)</name> 
+		<url>http://www.hcc.nl/smartsite.dws?id=349</url> 
+	</feed> 
+	<feed>
+		<name>[NL] SPORT: NOS Sport</name>
+		<url>http://feeds.nos.nl/nossport.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Headliner Formule 1 Nieuws</name>
+		<url>http://rssfeeds.headliner.nl/rssfeeds/f1/feed.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: FOK! Formule1 Nieuws</name>
+		<url>http://rss.fok.nl/feeds/formule1</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: FOK Voetbalnieuws</name>
+		<url>http://rss.fok.nl/feeds/voetbal</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Voetbal headlines NL</name>
+		<url>http://rssfeeds.headliner.nl/rssfeeds/voetbal/feed.xml</url>
+	</feed>  
+	<feed>
+		<name>[NL] SPORT: Voetbal4U</name>
+		<url>http://soccer4u.nl/voetbal-nieuws.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Voetbalkrant</name>
+		<url>http://www.voetbalkrant.com/rss/nieuws.xml</url>
+	</feed>                
+	<feed>
+		<name>[NL] SPORT: Ajax headlines</name>
+		<url>http://rssfeeds.headliner.nl/rssfeeds/ajax/feed.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Ajax netwerk</name>
+		<url>http://ajax.netwerk.to/nieuws/rss.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Feyenoord headlines</name>
+		<url>http://rssfeeds.headliner.nl/rssfeeds/feyenoord/feed.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: Feyenoord netwerk</name>
+		<url>http://feyenoord.netwerk.to/nieuws/rss.xml</url>
+	</feed>
+	<feed>
+		<name>[NL] SPORT: PSV headlines</name>
+		<url>http://rssfeeds.headliner.nl/rssfeeds/psv/feed.xml</url>
+	</feed>    
+	<feed>
+		<name>[NL] SPORT: PSV netwerk</name>
+		<url>http://psv.netwerk.to/nieuws/rss.xml</url>
+	</feed>  
+	<feed>
+		<name>[NL] SPORT: AZ heaslines</name> 
+		<url>http://rssfeeds.headliner.nl/rssfeeds/az/feed.xml</url> 
+	</feed>
+	<feed>
+		<name>[NL] SPORT: AZ Netwerk</name> 
+		<url>http://www.azfanatics.nl/index.php?option=com_rss</url> 
+	</feed>
+	<feed>
+		<name>[EN] SPORT: UEFA Soccer news</name>
+		<url>http://syndication.soccerway.com/rss/feed.php</url>
+	</feed>
+	<feed>
+		<name>[EN] SPORT: UEFA Soccer news</name>
+		<url>http://syndication.soccerway.com/rss/feed.php</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Amsterdam-Amstelland</name>
+		<url>http://www.alarmeringen.nl/feeds/21/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Braband-Noord</name>
+		<url>http://www.alarmeringen.nl/feeds/29/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Braband-Zuidoost</name>
+		<url>http://www.alarmeringen.nl/feeds/30/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Drenthe</name>
+		<url>http://www.alarmeringen.nl/feeds/10/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Flevoland</name>
+		<url>http://www.alarmeringen.nl/feeds/31/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Friesland</name>
+		<url>http://www.alarmeringen.nl/feeds/9/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Gelderland-Midden</name>
+		<url>http://www.alarmeringen.nl/feeds/14/all.rss</url>
+	</feed>	
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Gelderland-Zuid</name>
+		<url>http://www.alarmeringen.nl/feeds/15/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Gooi en Vechtstreek</name>
+		<url>http://www.alarmeringen.nl/feeds/22/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Groningen</name>
+		<url>http://www.alarmeringen.nl/feeds/8/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Haaglanden</name>
+		<url>http://www.alarmeringen.nl/feeds/23/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Holland Midden</name>
+		<url>http://www.alarmeringen.nl/feeds/24/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Ijselland</name>
+		<url>http://www.alarmeringen.nl/feeds/16/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Kennemerland</name>
+		<url>http://www.alarmeringen.nl/feeds/20/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Limburg-Noord</name>
+		<url>http://www.alarmeringen.nl/feeds/1/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Limburg-Zuid</name>
+		<url>http://www.alarmeringen.nl/feeds/4/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Midden en West Braband</name>
+		<url>http://www.alarmeringen.nl/feeds/28/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Noord-Holland-Noord</name>
+		<url>http://www.alarmeringen.nl/feeds/18/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Noord en oost Gelderland</name>
+		<url>http://www.alarmeringen.nl/feeds/13/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Rotterdam-Rijnmond</name>
+		<url>http://www.alarmeringen.nl/feeds/25/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Twente</name>
+		<url>http://www.alarmeringen.nl/feeds/12/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Utrecht</name>
+		<url>http://www.alarmeringen.nl/feeds/17/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Zaanstreek-Waterland</name>
+		<url>http://www.alarmeringen.nl/feeds/19/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Zeeland</name>
+		<url>http://www.alarmeringen.nl/feeds/27/all.rss</url>
+	</feed>
+	<feed>
+		<name>[NL] P2000  Alarmeringen: Zuid-Holland Zuid</name>
+		<url>http://www.alarmeringen.nl/feeds/26/all.rss</url>
+	</feed>	
+</feeds>
