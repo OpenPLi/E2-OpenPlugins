@@ -1,4 +1,4 @@
 installdir = $(sysconfdir)
 
-dist_pkgdata_DATA = \
+install_DATA = \
 	feeds.xml.default
