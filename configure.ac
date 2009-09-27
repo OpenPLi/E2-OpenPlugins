@@ -13,7 +13,6 @@ Makefile
 PLi/Makefile
 PLi/PPanel/Makefile
 PLi/SoftcamSetup/Makefile
-PLi/LipSync/Makefile
 PLi/NFSServer/Makefile
 PLi/Bitrate/Makefile
 PLi/Bitrate/bitratetool/Makefile

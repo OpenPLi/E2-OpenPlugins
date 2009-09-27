@@ -1,1 +1,1 @@
-SUBDIRS = PPanel SoftcamSetup LipSync NFSServer Bitrate MountManager NewsReader RemoteControlChannel UShare ScreenPosition StreamInterface SnmpAgent
+SUBDIRS = PPanel SoftcamSetup NFSServer Bitrate MountManager NewsReader RemoteControlChannel UShare ScreenPosition StreamInterface SnmpAgent
