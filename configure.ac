@@ -16,7 +16,6 @@ PLi/SoftcamSetup/Makefile
 PLi/NFSServer/Makefile
 PLi/Bitrate/Makefile
 PLi/Bitrate/bitratetool/Makefile
-PLi/MountManager/Makefile
 PLi/NewsReader/Makefile
 PLi/NewsReader/data/Makefile
 PLi/RemoteControlChannel/Makefile
