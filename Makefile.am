@@ -1,3 +1,3 @@
 AUTOMAKE_OPTIONS = gnu
 
-SUBDIRS = PLi
+SUBDIRS = PLi UPnP SystemPlugins
