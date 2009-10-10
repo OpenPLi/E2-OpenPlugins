@@ -289,7 +289,7 @@ int main(int argc, char *argv[])
 {
 	if (argc < 4)
 	{
-		printf("usage: %s <targettemp> <minrpm> <(no)LED> <(no)ALERT>\n", argv[0]);
+		printf("usage: %s <targettemp> <startrpm> <(no)LED> <(no)ALERT>\n", argv[0]);
 		exit(1);
 	}
 
