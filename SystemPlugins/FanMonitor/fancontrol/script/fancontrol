@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# start/stop fancontrol
+
+if ! [ -x /usr/bin/fancontrol ]; then
+	exit 0
+fi
+
+case "$1" in
+	start)
+		echo -n "Starting fancontrol: "
+		start-stop-daemon -S -x /usr/bin/fancontrol 45 3000 LED ALERT
+		echo "done."
+		;;
+	stop)
+		echo -n "Stopping fancontrol: "
+		start-stop-daemon -K -x /usr/bin/fancontrol
+		echo "done."
+		;;
+	restart|reload)
+		$0 stop
+		$0 start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit 0

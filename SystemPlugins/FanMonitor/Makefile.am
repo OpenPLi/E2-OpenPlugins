@@ -6,4 +6,4 @@ install_PYTHON =	\
 
 install_DATA = LICENSE
 
-SUBDIRS = data Sources Converters
+SUBDIRS = fancontrol data Sources Converters
