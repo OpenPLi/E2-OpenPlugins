@@ -1,8 +1,8 @@
 from Plugins.Plugin import PluginDescriptor
 
 from twisted.internet import reactor, defer
-from twisted.web2 import server, channel, http
-from twisted.web2 import resource, static, responsecode, http, http_headers
+from twisted.web import server, http
+from twisted.web import resource, static, http, http_headers
 
 from Components.config import config
 from Components.Sources.ServiceList import ServiceList
@@ -31,7 +31,9 @@ class BouquetList(resource.Resource):
 				s = s + '<p>'
 				ref = ref.replace(' ', '%20').replace(':', '%3A').replace('"', '%22')
 				s = s + '<a href="/channel/?ref=' + ref + '">' + name + '</a>'
-			return http.Response(responsecode.OK, {'Content-type': http_headers.MimeType('text', 'html')}, stream = s)
+			req.setResponseCode(200)
+			req.setHeader('Content-type', 'text/html');
+			return s;
 
 	def locateChild(self, request, segments):
 		return resource.Resource.locateChild(self, request, segments)
@@ -51,7 +53,8 @@ class ChannelList(resource.Resource):
 					w3 = i.split("=")
 					parts[w3[0]] = w3[1]
 		except:
-			return http.Response(responsecode.OK, stream="no ref given with ref=???")
+			req.setResponseCode(200);
+			return "no ref given with ref=???"
 
 		if parts.has_key("ref"):
 			s = '<br/>'
@@ -65,14 +68,21 @@ class ChannelList(resource.Resource):
 			if len(sub) > 0:
 				for (ref, name) in sub:
 					s = s + '<p>'
-					s = s + '<a href="http://' + req.host + ':8001/' + ref + '" vod>' + name + '</a>'
-				return http.Response(responsecode.OK, {'Content-type': http_headers.MimeType('text', 'html')}, stream = s)
+					s = s + '<a href="http://%s:8001/%s" vod>%s</a>'%(req.host.host,ref,name)
+				req.setResponseCode(200);
+				req.setHeader('Content-type', 'text/html');
+				return s;
 		else:
-			return http.Response(responsecode.OK, stream="no ref")
+			req.setResponseCode(200);
+			return "no ref";
 
 def startServer(session):
 	list = BouquetList()
-	reactor.listenTCP(40080, channel.HTTPFactory(server.Site(list)))
+	channels = ChannelList()
+	res = resource.Resource()
+	res.putChild("", list)
+	res.putChild("channel", channels) 
+	reactor.listenTCP(40080, server.Site(res))
 
 def autostart(reason, **kwargs):
 	if "session" in kwargs:
