@@ -18,103 +18,103 @@ from enigma import eTimer
 
 class FanMonitorScreen(Screen):
 	skin = """
-		<screen name="fanmonitorscreen" position="90,100" size="520,400" title="FanMonitor">
+		<screen name="fanmonitorscreen" position="90,100" size="580,440" title="FanMonitor">
 		
-		<ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
-		<ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
-		<ePixmap pixmap="skin_default/buttons/yellow.png" position="280,0" size="140,40" alphatest="on" />
-		<ePixmap pixmap="skin_default/buttons/blue.png" position="420,0" size="140,40" alphatest="on" />
-		<widget source="key_red" render="Label" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
-		<widget source="key_green" render="Label" position="140,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
-		<widget source="key_yellow" render="Label" position="280,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1" />
-		<widget source="key_blue" render="Label" position="420,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
+		<ePixmap pixmap="skin_default/buttons/red.png" position="10,5" size="140,40" alphatest="on" />
+		<ePixmap pixmap="skin_default/buttons/green.png" position="150,5" size="140,40" alphatest="on" />
+		<ePixmap pixmap="skin_default/buttons/yellow.png" position="290,5" size="140,40" alphatest="on" />
+		<ePixmap pixmap="skin_default/buttons/blue.png" position="430,5" size="140,40" alphatest="on" />
+		<widget source="key_red" render="Label" position="10,5" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+		<widget source="key_green" render="Label" position="150,5" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+		<widget source="key_yellow" render="Label" position="290,5" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1" />
+		<widget source="key_blue" render="Label" position="430,5" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#18188b" transparent="1" />
 		
-		<eLabel name="rpm" text="Speed" position="70,35" size="60,20" font="Regular;18" halign="right" transparent="1" />
-		<widget source="FanSource" render="Label" position="460,35" size="60,22" font="Regular;18">
+		<eLabel name="rpm" text="Umdrehungen" position="70,55" size="130,20" font="Regular;18" halign="right" transparent="1" />
+		<widget source="FanSource" render="Label" position="485,55" size="60,22" font="Regular;18">
 			<convert type="FanInfo">RPM</convert>
 		</widget>
-		<eLabel name="rpm" text="Voltage" position="60,65" size="70,20" font="Regular;18" halign="right" transparent="1" />
-		<widget source="FanSource" render="Label" position="460,65" size="60,22" font="Regular;18">
+		<eLabel name="rpm" text="Spannung" position="70,85" size="130,20" font="Regular;18" halign="right" transparent="1" />
+		<widget source="FanSource" render="Label" position="485,85" size="60,22" font="Regular;18">
 			<convert type="FanInfo">VLT</convert>
 		</widget>
-		<eLabel name="rpm" text="DutyCycle" position="30,95" size="100,20" font="Regular;18" halign="right" transparent="1" />
-		<widget source="FanSource" render="Label" position="460,95" size="60,22" font="Regular;18">
+		<eLabel name="rpm" text="Steuerzyklus" position="70,115" size="130,20" font="Regular;18" halign="right" transparent="1" />
+		<widget source="FanSource" render="Label" position="485,115" size="65,22" font="Regular;18">
 			<convert type="FanInfo">PWM</convert>
 		</widget>
-		<widget source="FanSource" render="Progress" position="190,35" size="260,20" pixmap="skin_default/bar_snr.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="FanSource" render="Progress" position="210,55" size="260,20" pixmap="skin_default/bar_snr_klpsauger.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="FanInfo">RPM</convert>
 		</widget>
-		<widget source="FanSource" render="Progress" position="190,65" size="260,20" pixmap="skin_default/bar_snr.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="FanSource" render="Progress" position="210,85" size="260,20" pixmap="skin_default/bar_snr_klpsauger.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="FanInfo">VLT</convert>
 		</widget>
-		<widget source="FanSource" render="Progress" position="190,95" size="260,20" pixmap="skin_default/bar_snr.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="FanSource" render="Progress" position="210,115" size="260,20" pixmap="skin_default/bar_snr_klpsauger.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="FanInfo">PWM</convert>
 		</widget>
 	
-		<widget source="TemperatureSource" render="Progress" position="100,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="100,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_1</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="120,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="120,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_2</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="140,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="140,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_3</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="160,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="160,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_4</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="180,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="180,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_5</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="200,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="200,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_6</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="220,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="220,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_7</convert>
 		</widget>
-		<widget source="TemperatureSource" render="Progress" position="240,130" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
+		<widget source="TemperatureSource" render="Progress" position="240,160" size="20,260" orientation="orBottomToTop" pixmap="skin_default/v_temp_bar.png" borderWidth="2" borderColor="#cccccc">
 			<convert type="TemperatureInfo">SENSOR_8</convert>
 		</widget>
-		<eLabel name="tmp" text="Temp 1:" position="300,130" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,130" size="48,18" font="Regular;16">
+		<eLabel name="tmp" text="Tunerslot" position="300,160" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,160" size="48,18" font="Regular;16">
 			<convert type="TemperatureInfo">SENSOR_1</convert>
 		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,130" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 2:" position="300,150" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,150" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_2</convert>
-		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,150" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 3:" position="300,170" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,170" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_3</convert>
-		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,170" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 4:" position="300,190" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Grad C" position="420,160" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="XILINK" position="300,190" size="90,18" font="Regular;16" halign="left" transparent="1" />
 		<widget source="TemperatureSource" render="Label" position="380,190" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_4</convert>
+			<convert type="TemperatureInfo">SENSOR_2</convert>
 		</widget>
 		<eLabel name="tmp" text="Grad C" position="420,190" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 5:" position="300,210" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,210" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_5</convert>
+		<eLabel name="tmp" text="WLan" position="300,220" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,220" size="48,18" font="Regular;16">
+			<convert type="TemperatureInfo">SENSOR_3</convert>
 		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,210" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 6:" position="300,230" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,230" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_6</convert>
-		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,230" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 7:" position="300,250" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Grad C" position="420,220" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Batterie" position="300,250" size="90,18" font="Regular;16" halign="left" transparent="1" />
 		<widget source="TemperatureSource" render="Label" position="380,250" size="48,18" font="Regular;16">
-			<convert type="TemperatureInfo">SENSOR_7</convert>
+			<convert type="TemperatureInfo">SENSOR_4</convert>
 		</widget>
 		<eLabel name="tmp" text="Grad C" position="420,250" size="100,18" font="Regular;16" halign="left" transparent="1" />
-		<eLabel name="tmp" text="Temp 8:" position="300,270" size="90,18" font="Regular;16" halign="left" transparent="1" />
-		<widget source="TemperatureSource" render="Label" position="380,270" size="48,18" font="Regular;16">
+		<eLabel name="tmp" text="CI vorne" position="300,280" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,280" size="48,18" font="Regular;16">
+			<convert type="TemperatureInfo">SENSOR_5</convert>
+		</widget>
+		<eLabel name="tmp" text="Grad C" position="420,280" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="SCIx Slot" position="300,310" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,310" size="48,18" font="Regular;16">
+			<convert type="TemperatureInfo">SENSOR_6</convert>
+		</widget>
+		<eLabel name="tmp" text="Grad C" position="420,310" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Security" position="300,340" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,340" size="48,18" font="Regular;16">
+			<convert type="TemperatureInfo">SENSOR_7</convert>
+		</widget>
+		<eLabel name="tmp" text="Grad C" position="420,340" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Luefter:" position="300,370" size="90,18" font="Regular;16" halign="left" transparent="1" />
+		<widget source="TemperatureSource" render="Label" position="380,370" size="48,18" font="Regular;16">
 			<convert type="TemperatureInfo">SENSOR_8</convert>
 		</widget>
-		<eLabel name="tmp" text="Grad C" position="420,270" size="100,18" font="Regular;16" halign="left" transparent="1" />
+		<eLabel name="tmp" text="Grad C" position="420,370" size="100,18" font="Regular;16" halign="left" transparent="1" />
 	</screen>"""
 
 	def __init__(self, session):
@@ -130,11 +130,11 @@ class FanMonitorScreen(Screen):
 		}, -1)
 		
 		self["key_red"] = StaticText(_("Calibrate"))
-		self["key_green"] = StaticText(_("xxx"))
-		self["key_yellow"] = StaticText(_("yyy"))
-		self["key_blue"] = StaticText(_("zzz"))
+		self["key_green"] = StaticText("-")
+		self["key_yellow"] = StaticText("-")
+		self["key_blue"] = StaticText("-")
 		
-		self["FanSource"]=FanStatus(update_interval = 1000)	#der FP liefert sowieso nur aller 1s einen Wert
+		self["FanSource"]=FanStatus(update_interval = 1000)	#der FP liefert sowieso nur alle 1s einen Wert
 		self["TemperatureSource"]=TemperatureStatus(update_interval = 1000)
 
 	def calibrateFan(self):
