@@ -227,66 +227,32 @@ class File(PPanelEntry):
 			"cancel": self.abort,
 		}, -1)
 
-		self.url = geturl(str(self.node.getAttribute("url")))
+		self.url = str(self.node.getAttribute("url"))
 		self.target = self.node.getAttribute("target")
 		self.connection = None
 
 	def startDownload(self):
-		from twisted.internet import reactor
-		from twisted.internet.protocol import ClientCreator
-		from twisted.web2 import http_headers, stream
-		from twisted.web2.client.http import ClientRequest, HTTPClientProtocol
+		from Tools.Downloader import downloadWithProgress
+		print "[PPanel File] Downloading %s to %s" % (self.url, self.target)
+		self.downloader = downloadWithProgress(self.url, self.target)
+		self.downloader.addProgress(self.progress)
+		self.downloader.start().addCallback(self.responseCompleted).addErrback(self.responseFailed)
 
-		port = 80
-		host = self.url[1]
+	def progress(self, current, total):
+		p = int(100*current/float(total))
+		self["progress"].setValue(p)
 
-		if "port" in self.url:
-			port = self.url.port
-		if "hostname" in self.url:
-			host = self.url.hostname
+	def responseCompleted(self, string=""):
+		print "[PPanel File] Download succeeded. "+string
+		self.close()
 
-		try:
-			ip = gethostbyname(host)
-		except:
-			self.close()
-			return
-
-		self.file = None
-		self.progress = 0
-		self.contentlength = 0
-
-		def gotData(data):
-			self.progress = self.progress + len(data)
-			if self.contentlength:
-				self["progress"].setValue(self.progress * 100 / self.contentlength)
-			self.file.write(data)
-
-		def responseCompleted(_):
-			self.file.close()
-			self.close()
-			return _
-
-		def gotResponse(response):
-			self.progress = 0
-			if response.stream.length is not None:
-				self.contentlength = response.stream.length
-			else:
-				print "Hmmm. twisted still doesn't parse the content-length tag..."
-			self["progress"].setValue(0)
-			self.file = file(self.target, "w")
-			stream.readStream(response.stream, gotData).addBoth(responseCompleted)
-
-		def sendRequest(proto):
-			proto.submitRequest(ClientRequest("GET", self.url[2], {'Host':host}, None)).addCallback(gotResponse)
-
-		self.connection = ClientCreator(reactor, HTTPClientProtocol).connectTCP(ip, port)
-		self.connection.addCallback(sendRequest)
+	def responseFailed(self, string=""):
+		print "[PPanel File] Download failed. "+string
+		self.close()
 
 	def abort(self):
-		if self.connection is not None:
-			#TODO disconnect somehow
-			#self.connection.disconnect()
-			self.connection = None
+		if self.downloader is not None:
+			self.downloader.stop
 		self.close()
 
 class Tarball(PPanelEntry):
@@ -311,68 +277,34 @@ class Tarball(PPanelEntry):
 			"cancel": self.abort,
 		}, -1)
 
-		self.url = geturl(str(self.node.getAttribute("url")))
+		self.url = str(self.node.getAttribute("url"))
 		self.target = self.node.getAttribute("target")
 		self.connection = None
 
 	def startDownload(self):
-		from twisted.internet import reactor
-		from twisted.internet.protocol import ClientCreator
-		from twisted.web2 import http_headers, stream
-		from twisted.web2.client.http import ClientRequest, HTTPClientProtocol
+		from Tools.Downloader import downloadWithProgress
+		print "[PPanel File] Downloading %s to %s" % (self.url, self.target)
+		self.downloader = downloadWithProgress(str(self.url), "/tmp/tarball.tar.gz")
+		self.downloader.addProgress(self.progress)
+		self.downloader.start().addCallback(self.responseCompleted).addErrback(self.responseFailed)
 
-		port = 80
-		host = self.url[1]
+	def progress(self, current, total):
+		p = int(100*current/float(total))
+		self["progress"].setValue(p)
 
-		if "port" in self.url:
-			port = self.url.port
-		if "hostname" in self.url:
-			host = self.url.hostname
+	def responseCompleted(self, string=""):
+		print "[PPanel File] Download succeeded. "+string
+		system("tar -zxvf /tmp/tarball.tar.gz -C " + self.target)
+		system("rm /tmp/tarball.tar.gz")
+		self.close()
 
-		try:
-			ip = gethostbyname(host)
-		except:
-			self.close()
-			return
-
-		self.file = None
-		self.progress = 0
-		self.contentlength = 0
-
-		def gotData(data):
-			self.progress = self.progress + len(data)
-			if self.contentlength:
-				self["progress"].setValue(self.progress * 100 / self.contentlength)
-			self.file.write(data)
-
-		def responseCompleted(_):
-			self.file.close()
-			system("tar -zxvf /tmp/tarball.tar.gz -C " + self.target)
-			system("rm /tmp/tarball.tar.gz")
-			self.close()
-			return _
-
-		def gotResponse(response):
-			self.progress = 0
-			if response.stream.length is not None:
-				self.contentlength = response.stream.length
-			else:
-				print "Hmmm. twisted still doesn't parse the content-length tag..."
-			self["progress"].setValue(0)
-			self.file = file("/tmp/tarball.tar.gz", "w")
-			stream.readStream(response.stream, gotData).addBoth(responseCompleted)
-
-		def sendRequest(proto):
-			proto.submitRequest(ClientRequest("GET", self.url[2], {'Host':host}, None)).addCallback(gotResponse)
-
-		self.connection = ClientCreator(reactor, HTTPClientProtocol).connectTCP(ip, port)
-		self.connection.addCallback(sendRequest)
+	def responseFailed(self, string=""):
+		print "[PPanel File] Download failed. "+string
+		self.close()
 
 	def abort(self):
-		if self.connection is not None:
-			#TODO disconnect somehow
-			#self.connection.disconnect()
-			self.connection = None
+		if self.downloader is not None:
+			self.downloader.stop()
 		self.close()
 
 class Execute(PPanelEntry):
