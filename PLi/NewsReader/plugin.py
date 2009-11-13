@@ -5,25 +5,16 @@
 #
 # Added enigma(1) rssreader compatible feed.xml support
 
-from enigma import *
 from Screens.Screen import Screen
 from Screens.MessageBox import MessageBox
 from Screens.InputBox import InputBox
-from Screens.ChoiceBox import ChoiceBox
 from Components.ActionMap import ActionMap, NumberActionMap
 from Components.ScrollLabel import ScrollLabel
 from Components.Label import Label
-from Components.GUIComponent import *
 from Components.MenuList import MenuList
 from Components.Input import Input
-from Components.VideoWindow import VideoWindow
 from Screens.Console import Console
-import os,sys
 from Plugins.Plugin import PluginDescriptor
-###
-from pyexpat import *
-import sys,urllib,re
-from re import sub
 
 from xml.dom.minidom import parse, getDOMImplementation
 
@@ -466,7 +457,8 @@ class RSS:
 		}
 
 	def print_rss( self, url ):
-		rssDocument = parse( urllib.urlopen( url ,proxies=FeedreaderConfig().getProxysettings()) )
+		from urllib import urlopen
+		rssDocument = parse( urlopen( url ,proxies=FeedreaderConfig().getProxysettings()) )
 
 		for node in self.getElementsByTagName(rssDocument, 'item'):
 			print '<ul class="RSS">'
@@ -482,7 +474,8 @@ class RSS:
 		"""
 		returns the content of the given URL as array
 		"""
-		rssDocument = parse( urllib.urlopen( url,proxies=FeedreaderConfig().getProxysettings()) )
+		from urllib import urlopen
+		rssDocument = parse( urlopen( url,proxies=FeedreaderConfig().getProxysettings()) )
 		channelname = self.get_txt( rssDocument, "title", "no channelname" )
 		data =[]
 		for node in self.getElementsByTagName(rssDocument, 'item'):
@@ -608,5 +601,6 @@ class RSS:
 			text_with_html= text_with_html.replace(repl[0],repl[1])
 	
 		# delete all <*> Tags
-		text_with_html = re.sub(r'<(.*?)>(?uism)', '', text_with_html)
+		from re import sub as re_sub
+		text_with_html = re_sub(r'<(.*?)>(?uism)', '', text_with_html)
 		return text_with_html
