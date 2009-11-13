@@ -458,7 +458,11 @@ class RSS:
 
 	def print_rss( self, url ):
 		from urllib import urlopen
-		rssDocument = parse( urlopen( url ,proxies=FeedreaderConfig().getProxysettings()) )
+		configproxies = FeedreaderConfig().getProxysettings()
+		if configproxies:
+			rssDocument = parse( urlopen( url ,proxies=configproxies) )
+		else:
+			rssDocument = parse( urlopen( url ) )
 
 		for node in self.getElementsByTagName(rssDocument, 'item'):
 			print '<ul class="RSS">'
@@ -475,7 +479,12 @@ class RSS:
 		returns the content of the given URL as array
 		"""
 		from urllib import urlopen
-		rssDocument = parse( urlopen( url,proxies=FeedreaderConfig().getProxysettings()) )
+		configproxies = FeedreaderConfig().getProxysettings()
+		if configproxies:
+			rssDocument = parse( urlopen( url ,proxies=configproxies) )
+		else:
+			rssDocument = parse( urlopen( url ) )
+
 		channelname = self.get_txt( rssDocument, "title", "no channelname" )
 		data =[]
 		for node in self.getElementsByTagName(rssDocument, 'item'):
