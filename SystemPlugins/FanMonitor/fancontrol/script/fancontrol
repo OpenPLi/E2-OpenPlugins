@@ -9,7 +9,7 @@ fi
 case "$1" in
 	start)
 		echo -n "Starting fancontrol: "
-		start-stop-daemon -S -x /usr/bin/fancontrol 45 3000 LED ALERT
+		start-stop-daemon -S -x /usr/bin/fancontrol 45 1000 LED ALERT
 		echo "done."
 		;;
 	stop)
