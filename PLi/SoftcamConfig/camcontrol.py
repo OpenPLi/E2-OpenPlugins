@@ -32,19 +32,18 @@ class CamControl:
 
 	def select(self, which):
 		print "Selecting CAM:", which
+		if not which:
+			which = "None"
+		dst = self.name + '.' + which
+		if not os.path.exists('/etc/init.d/' + dst):
+			print "[CamControl] init script does not exist:", dst
+			return 
 		try:
 			os.unlink(self.link)
 		except:
 			pass
-		if not which:
-			which = "None"
-		dst = self.name + '.' + which
-		if not os.path.exists('/etc/init.d/' + self.name + '.' + which):
-			print "[CamControl] init script does not exist:", dst
-			return 
 		try:
-			newlink = '/etc/init.d/' + self.name
-			os.symlink(dst, newlink);
+			os.symlink(dst, self.link);
 		except:
 			print "Failed to create symlink for softcam:", dst
 			import sys
