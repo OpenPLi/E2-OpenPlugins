@@ -1,22 +1,17 @@
 import os
 
 class CamControl:
-	'''CAM convention  is that a softlink named /etc/rcS.d/S40... points
-	to the start/stop script. In order to be nice to update-rc scripts,
-	the link name will be appended with the currently selected softcam's name,
-	so that CCcam has a link /etc/rcS.d/S40emu_CCcam -> /etc/init.d/emu_CCcam'''
+	'''CAM convention is that a softlink named /etc/init.c/softcam.* points
+	to the start/stop script.'''
 	def __init__(self, name):
 		self.name = name
-		self.link = '/etc/rcS.d/S40' + name
+		self.link = '/etc/init.d/' + name
 		if not os.path.exists(self.link):
-			lname = 'S40' + name
-			for l in os.listdir('/etc/rcS.d'):
-				if l.startswith(lname):
-					self.link = '/etc/rcS.d/' + l
+			print "[CamControl] No softcam link?", self.link
 
 	def getList(self):
 		result = []
-		prefix = self.name + '_'
+		prefix = self.name + '.'
 		for f in os.listdir("/etc/init.d"):
 			if f.startswith(prefix):
 				result.append(f[len(prefix):])
@@ -25,7 +20,7 @@ class CamControl:
 	def current(self):
 		try:
 			l = os.readlink(self.link)
-			return os.path.split(l)[1].split('_')[1]
+			return os.path.split(l)[1].split('.', 2)[1]
 		except:
 			pass
 		return None
@@ -42,14 +37,16 @@ class CamControl:
 		except:
 			pass
 		if not which:
-			return
-		dst = '../init.d/' + self.name + '_' + which
-		if not os.path.exists('/etc/init.d/' + self.name + '_' + which):
-			return # probably "None" was selected here
+			which = "None"
+		dst = self.name + '.' + which
+		if not os.path.exists('/etc/init.d/' + self.name + '.' + which):
+			print "[CamControl] init script does not exist:", dst
+			return 
 		try:
-			newlink = '/etc/rcS.d/S40' + self.name + '_' + which
+			newlink = '/etc/init.d/' + self.name
 			os.symlink(dst, newlink);
 		except:
 			print "Failed to create symlink for softcam:", dst
 			import sys
 			print sys.exc_info()[:2]
+

@@ -15,6 +15,16 @@ from enigma import eTimer, eDVBCI_UI, eListboxPythonStringContent, eListboxPytho
 
 
 class ScSelection(Screen):
+	skin = """
+        <screen name="ScSelection" position="80,200" size="560,230" title="Softcam Setup">
+                <widget name="entries" position="5,10" size="550,170" />
+                <ePixmap name="rood" position="5,190" zPosition="1" size="140,40" pixmap="skin_default/buttons/red.png" transparent="1" alphatest="on" />
+                <ePixmap name="groen" position="150,190" zPosition="1" size="200,40" pixmap="skin_default/buttons/green-big.png" transparent="1" alphatest="on" />
+                <ePixmap name="geel" position="355,190" zPosition="1" size="200,40" pixmap="skin_default/buttons/yellow.png" transparent="1" alphatest="on" />
+                <widget name="key_red" position="5,190" zPosition="2" size="140,40" valign="center" halign="center" font="Regular;21" transparent="1" backgroundColor="#9f1313" shadowColor="black" shadowOffset="-1,-1" />
+                <widget name="key_green" position="150,190" zPosition="2" size="200,40" valign="center" halign="center" font="Regular;21" transparent="1" backgroundColor="#1f771f" shadowColor="black" shadowOffset="-1,-1" />
+                <widget name="key_yellow" position="355,190" zPosition="2" size="200,40" valign="center" halign="center" font="Regular;21" transparent="1" backgroundColor="#a08500" shadowColor="black" shadowOffset="-1,-1" />
+        </screen>"""
 	def __init__(self, session):
 		Screen.__init__(self, session)
 
@@ -30,7 +40,7 @@ class ScSelection(Screen):
 
 		self.list = [ ]
 
-		self.softcam = CamControl('emu')
+		self.softcam = CamControl('softcam')
 		self.cardserver = CamControl('crdsvr')
 
 		menuList = ConfigList(self.list)
@@ -40,7 +50,6 @@ class ScSelection(Screen):
 
 		softcams = [_("None")] + self.softcam.getList()
 		cardservers = [_("None (Softcam)")] + self.cardserver.getList()
-
 
 		self.softcams = ConfigSelection(choices = softcams)
 		self.softcams.value = self.softcam.current() or _("None")
