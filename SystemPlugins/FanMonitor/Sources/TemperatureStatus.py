@@ -20,9 +20,8 @@ class TemperatureStatus(Source):
 			self.temp_timer.start(self.update_interval)
 
 	def readTemp(self):
-		t = int(open("/proc/stb/fp/temp%d"%self.index).read()) / 256.0 * 3.3
-		t = 4.246e1 * t + 7.362e-1
-		return t
+		return int(open("/proc/stb/sensors/temp%d/value"%self.index).read())
+
 	def setIndex(self,index):
 		if (index < 0) or (index > 7):
 			self.index = 0 
