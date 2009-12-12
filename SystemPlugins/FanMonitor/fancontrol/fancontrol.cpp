@@ -94,13 +94,11 @@ public:
 	int readTemp()
 	{
 		char name[512];
-		sprintf(name, "/proc/stb/fp/temp%d", index);
+		sprintf(name, "/proc/stb/sensors/temp%d/value", index);
 		std::ifstream file(name);
-		double t;
+		int t;
 		file >> t;
-		t = t / 256.0 * 3.3;
-		t = 4.246 * exp(1.0) * t + 7.362 * exp(-1.0);
-		return (int)t;
+		return t;
 	}
 };
 
