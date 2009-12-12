@@ -1,7 +1,7 @@
-from ppanel import ToplevelPPanel
 from Plugins.Plugin import PluginDescriptor
 
 def main(session, **kwargs):
+	from ppanel import ToplevelPPanel
 	session.open(ToplevelPPanel)
 
 def Plugins(**kwargs):
