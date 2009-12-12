@@ -1,8 +1,8 @@
-from softcamsetup import PLiSoftcamSetup
 from Plugins.Plugin import PluginDescriptor
 
 def main(session, **kwargs):
-	session.open(PLiSoftcamSetup)
+	import Sc
+	session.open(Sc.ScSelection)
 
 def menu(menuid, **kwargs):
 	if menuid == "cam":
