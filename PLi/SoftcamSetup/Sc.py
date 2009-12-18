@@ -30,14 +30,14 @@ class ScSelection(Screen):
 				"left": self.keyLeft,
 				"right": self.keyRight,
 				"cancel": self.cancel,
-				"green": self.set_sc,
+				"green": self.okay,
 				"red": self.cancel
 			},-1)
 
 		self.list = [ ]
 
 		self.softcam = CamControl('softcam')
-		self.cardserver = CamControl('crdsvr')
+		self.cardserver = CamControl('cardserver')
 
 		menuList = ConfigList(self.list)
 		menuList.list = self.list
@@ -53,7 +53,7 @@ class ScSelection(Screen):
 		self.list.append(getConfigListEntry(_("Select Softcam"), self.softcams))
 		if cardservers:
 			self.cardservers = ConfigSelection(choices = cardservers)
-			self.cardservers.value = self.cardserver.current() or _("None (Softcam)")
+			self.cardservers.value = self.cardserver.current() or _("None")
 			self.list.append(getConfigListEntry(_("Select Card Server"), self.cardservers))
 
 		self["key_red"] = Label(_("Cancel"))
@@ -72,7 +72,6 @@ class ScSelection(Screen):
 		self.softcam.command('stop')
 		self.oldref = self.session.nav.getCurrentlyPlayingServiceReference()
 		self.session.nav.stopService()
-
 		self.softcam.select(self.softcams.value)
 		if self.what == "both":
                         self.cardserver.select(self.cardservers.value)
@@ -82,17 +81,16 @@ class ScSelection(Screen):
 		self.close()
 		self.session.nav.playService(self.oldref)
 
-	def reset_both(self):
-		self.what = "both"
-		self.mbox = self.session.open(MessageBox, _("Please wait, restarting softcam and cardserver."), MessageBox.TYPE_INFO)
-		self.activityTimer = eTimer()
-		self.activityTimer.timeout.get().append(self.restart)
-		self.activityTimer.start(100, False)
-
-	def set_sc(self):
-		self.what = "sc"
-		if self.softcams.value != self.softcam.current():
-			self.mbox = self.session.open(MessageBox, _("Please wait, (re)starting softcam."), MessageBox.TYPE_INFO)
+	def okay(self):
+		self.what = None
+		if hasattr(self, 'cardservers') and (self.cardservers.value != self.cardserver.current()):
+                        self.what = 'both'
+                        msg = _("Please wait, restarting softcam and cardserver.")
+		elif self.softcams.value != self.softcam.current():
+                        self.what = 'sc'
+                        msg  = _("Please wait, (re)starting softcam.")
+                if self.what:
+			self.mbox = self.session.open(MessageBox, msg, MessageBox.TYPE_INFO)
 			self.activityTimer = eTimer()
 			self.activityTimer.timeout.get().append(self.restart)
 			self.activityTimer.start(100, False)
