@@ -1,5 +1,0 @@
-if DM8000
-BOXSPECIFIC = FanMonitor
-endif
-
-SUBDIRS = $(BOXSPECIFIC)

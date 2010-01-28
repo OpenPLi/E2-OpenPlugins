@@ -34,11 +34,4 @@ PLi/StreamInterface/Makefile
 PLi/SnmpAgent/Makefile
 UPnP/Makefile
 UPnP/UShare/Makefile
-SystemPlugins/Makefile
-SystemPlugins/FanMonitor/Makefile
-SystemPlugins/FanMonitor/data/Makefile
-SystemPlugins/FanMonitor/fancontrol/Makefile
-SystemPlugins/FanMonitor/fancontrol/script/Makefile
-SystemPlugins/FanMonitor/Sources/Makefile
-SystemPlugins/FanMonitor/Converters/Makefile
 ])
