@@ -123,7 +123,7 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 		::fcntl(fd, F_SETFL, O_NONBLOCK);
 		::ioctl(fd, DMX_SET_BUFFER_SIZE, 1024 * 1024);
 		dmx_pes_filter_params flt;
-		flt.pes_type = (dmx_pes_type_t)0;//DMX_TAP_TS;
+		flt.pes_type = DMX_PES_OTHER;
 		flt.pid     = pids[i];
 		flt.input   = DMX_IN_FRONTEND;
 		flt.output  = DMX_OUT_TAP;
