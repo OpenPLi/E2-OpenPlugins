@@ -22,6 +22,7 @@ AC_OUTPUT([
 Makefile
 PLi/Makefile
 PLi/PPanel/Makefile
+PLi/PPanel/data/Makefile
 PLi/SoftcamSetup/Makefile
 PLi/NFSServer/Makefile
 PLi/Bitrate/Makefile

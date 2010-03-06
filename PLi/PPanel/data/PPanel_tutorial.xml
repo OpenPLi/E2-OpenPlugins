@@ -1,0 +1,304 @@
+<!-- This is a sample PPanel_tutorial.xml file to show all the PPanel possibilities.
+     Store this file in the directory /var/etc/ppanels
+
+     (C) Copyright 2007 dAF2000 PLi image team
+     Original based on The_Hydra CPanel
+-->
+
+<!-- Each xml file starts with <directory> and ends with </directory>
+     Note that name="..." is not compulsory
+-->
+<directory name="Sample PPanel (tutorial)">
+
+   <!-- Use <category> to create sections which will have their own screen.
+        Parameters:
+        name        : name in screen, compulsory
+        Optional is : condition, lock
+   -->
+   <category name="Empty menu">
+      <!-- Add other things here, even nested <category> is possible -->
+      <category name="Nested menu">
+      </category>
+   </category>
+
+   <category name="Click here to see more possiblities" helptext="Please select this menu">
+
+      <!-- About executing programs and scripts:
+           For almost each xml tag, it's possible to execute a script
+           before and after the action. These options are:
+
+           runBefore    : run a program before, no output is shown
+           runAfter     : run a program after, no output is shown
+           runBeforeOut : run a program before and show output
+           runAfterOut  : run a program after and show output
+
+           Example:
+
+           <file name="Download a file from internet"
+                 url="http://www.google.nl/intl/nl_nl/images/logo.gif"
+                 target="/tmp/logo.gif"
+                 runAfter="rm /tmp/logo.gif"/>
+
+           All four options can be used simultaneously
+      -->
+
+      <!-- About "condition"
+           All xml tags except <directory> can have a script which is
+           evaluated runtime while the xml file is read. If the script
+           returns true the xml tag will be shown.
+
+           Example:
+
+           <execute name="Enable automatic menu downloads"
+                    condition="[ ! -f /var/etc/ppanelautodownload ]"
+                    target="touch /var/etc/ppanelautodownload; echo Automatic downloads enabled"/>
+
+           <execute name="Disable automatic menu downloads"
+                    condition="[ -f /var/etc/ppanelautodownload ]"
+                    target="rm -f /var/etc/ppanelautodownload; echo Automatic downloads disabled"/>
+
+           Depending on if /var/etc/ppanelautodownload exists, only one of the two is shown.
+
+			  Combining conditions is also possible:
+			  <separator condition="[ -d /media/usb/backup/DM7000 -o -d /media/hdd/backup/DM7000 ]"/>
+			  Here "-o" is OR, use "-a" for AND.
+      -->
+
+      <!-- About "confirmation"
+           For almost each xml tag, it's possible to have a confirmation.
+
+           If you ommit confirmation, no confirmation will be asked.
+           If confirmation is "true", you will get a default confirmation.
+           Otherwise, the confirmation will be the text after confirmation.
+
+           Example:
+
+           <file name="Download a file from internet"
+                 url="http://www.google.nl/intl/nl_nl/images/logo.gif"
+                 target="/tmp/logo.gif"
+                 confirmation="Do you have internet?"/>
+      -->
+
+      <!-- About encryption
+           The url option in <tarball>, <file>, <media> and <picture> can be encrypted.
+           Encrypted urls always start with a "*". Use the program "scramble"
+           on your Dreambox to encrypt.
+      -->
+
+      <!-- About "helptext"
+           For almost each xml tag, it's possible to add a helptext.
+           If you ommit helptext, "Please select an item" is shown.
+
+           Example:
+
+           <category name="Downloads..." helptext="Download software">
+      -->
+
+      <!-- About "quit"
+           For almost each xml tag, it's possible to close, restart or hide the PPanel afterwards.
+           Use quit="restart" to restart the PPanel again. This may be needed if the xml file of
+           the PPanel has been changed and must be reloaded, for example in "Download latest menu".
+           Use quit="exit" to exit the PPanel and return to the application which called the PPanel.
+           Use quit="hide" to hide the PPanel and show a small "press OK" button in the left top corner
+           of the screen. After pressing OK the PPanel will be shown again. This is very useful for <media>.
+
+           Example:
+
+           <execute name="Download latest menu"
+                    condition="[ ! -f /var/etc/ppanelautodownload ]"
+                    target="ppanelupdate.sh http://pli.dreamvcr.com/emerald/xml/dm7000/software.tar.gz /; rm -f /tmp/ppanelrefresh"
+                    confirmation="Are you sure to download the latest menu?"
+                    quit="restart"/>
+      -->
+
+      <!-- About "lock"
+           For <directory>, <ppanel> and <category> it's possible to lock the screen using a PIN code.
+           The PIN code will be the one used in Setup/Parental Lock/Setup lock (if enabled).
+           Add lock="true" to lock your PPanel.
+      -->
+
+      <!-- About "#RELEASE#"
+		     In (most) URLs #RELEASE# will be replaced by the release name
+		-->
+
+      <!-- Use <file> to download any file from internet using http or ftp
+           In this case download a google gif and store it in /tmp/logo.gif
+           Parameters:
+           name         : name in screen, compulsory
+           url          : download URL, compulsory
+           target       : where to store the file, if not specified it defaults to "/dev/null"
+			  dontCheck    : if set to "true", PPanel will not check if the file was really downloaded
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+
+			  Issuing a webcommand can also be done using <file>:
+
+			  <file name="Start recording" url="http://127.0.0.1/cgi-bin/videocontrol?command=record" dontCheck="true"/>
+			  The output is redirected to /dev/null and afterwards the download isn't checked
+      -->
+      <file name="Download a file from internet"
+            url="http://www.google.nl/intl/nl_nl/images/logo.gif"
+            target="/tmp/logo.gif"
+            helptext="File will be stored in /tmp/logo.gif"/>
+
+      <!-- Use <media> to display media on screen (jpg, jpeg, crw, png, bmp, gif, ts, mp3, ogg, flac, txt).
+           Note this can show picture as well play recorded movies, mp3 and even streaming mp3.
+           For streaming mp3 add: stream="true".
+           Parameters:
+           name   : name in screen, compulsory
+           target : filename or download URL, both work, compulsory
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit,
+                          stream (="true"), for m3u streams.
+      -->
+
+      <media name="Show a picture in the filesystem"
+             target="/share/tuxbox/enigma/htdocs/top.jpg"
+             helptext="Shows /share/tuxbox/enigma/htdocs/top.jpg"/>
+      <media name="Show a picture from internet"
+             target="http://www.gnu.org/graphics/gnu-head-sm.jpg"
+             helptext="Shows http://www.gnu.org/graphics/gnu-head-sm.jpg"/>
+      <media name="Play an internet radio stream"
+             target="http://64.236.34.196:80/stream/1065" stream="true"
+             helptext="Plays http://64.236.34.196:80/stream/1065"/>
+      <media name="Show PLi news"
+             target="http://pli.dreamvcr.com/garnet/xml/all/pli_news.txt"
+             helptext="Show PLi news from internet"/>
+
+      <!-- Some more examples for <media>
+
+      <media name="Play my move"
+             target="/media/hdd/movie/mymove.ts"/>
+
+      <media name="Play my MP3"
+             target="/media/hdd/mp3/mymp3.mp3"/>
+      -->
+
+      <!-- <picture> is exactly the same as <media> but for compatibility with older images only.
+           The use of <media> is recommended.
+      -->
+
+      <!-- Use <execute> to execute a script or program.
+           Parameters:
+           name         : name in the screen, compulsory
+           target       : program to execute, compulsory
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+      -->
+      <execute name="Show directory listing of /tmp"
+               target="ls /tmp"
+               helptext="Executes ls /tmp"/>
+      <execute name="ls /tmp and an echo, with confirmation"
+               target="echo Here we go!; ls /tmp"
+               confirmation = "true"
+               helptext="Executes ls /tmp and some more"/>
+
+      <!-- Use <tarball> to download and install a tarball.
+           Also supports ipkg packages
+           THIS IS FOR PLI INTERNAL USE ONLY
+           Parameters:
+           name           : name in the screen, compulsory
+           url            : download URL, compulsory
+           version        : package version, optional
+           action         : install action, optional, default is "upgrade"
+           packageType    : one of "var" (default), "hdd" or "set", optional
+           package        : short name of the package as shown in the uninstaller, optional
+           Optional are   : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+
+           Note: If url is a directory in the filesystem, "manual install" will be opened.
+      -->
+      <!-- This example is commented
+           <tarball name="Download and install something"
+                    url="http://somewhere/something.tar.gz"
+                    confirmation="true"/>
+      -->
+
+      <!-- Use <comment> to just display a line of text in the menu
+           Parameters:
+           name : name in the screen, compulsory
+      -->
+      <comment name="This is just a comment"/>
+
+      <!-- Use <separator/> for a separator line in a menu
+           Optional is : condition
+      -->
+      <separator/>
+
+      <!-- Use <plugins> to call the plugin screen
+           Parameters:
+           name        : name in the screen, compulsory
+           Optional is : condition, helptext
+      -->
+      <plugins name="My installed plugins"
+               helptext="Show my installed plugins"/>
+
+      <!-- Use <plugin> to call one specific plugin
+           Parameters:
+           name         : name in the screen, compulsory
+           target       : plugin configuration file, compulsory
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+      <plugin name="PLi setup tool"
+              target="setup.cfg"
+              helptext="Open the PLi setup tool"/>
+      -->
+
+      <!-- Use <menu> to open a Dreambox menu
+           Parameters:
+           name         : name in the screen, compulsory
+           target       : menu identifier, compulsory
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+
+           The target is one of:
+           BackupScreen, eEmuConfig, eZapBouquetSetup, enigmaCI, eZapScan, eZapSetup, eSoftwareManagement,
+           eHardwareSettings, eInterfaceSettings, KeyMapping, eParentalSetup, DebugSetup, ENgrabSetup, EpgSetup,
+           MultiEPGSetup, ExtraOSDSetup, eHarddiskSetup, eZapKeyboardSetup, LanguageSetup, eZapLCDSetup,
+           eMountSetup, eZapNetworkSetup, PluginOffsetScreen, eZapOsdSetup, eZapRCSetup, RecordingPlayingSetup,
+           eZapRFmodSetup, ServicesSetup, eSkinSetup, SwapAndVarSetup, TeletextSetup, UsbSetup, eZapVideoSetup,
+           WebIfSetup, eSoftwareUpdate, eSystemSettings, FactoryReset, eTimeSettings
+      -->
+      <menu name="Dreambox setup screen"
+              target="eZapSetup"
+              helptext="Open the Dreambox setup screen"/>
+
+      <!-- Use <ppanel> to call another ppanel
+           <ppanel> is basically the same as <category>. If "target" is omitted, <ppanel> will behave as <category>.
+           If a target is specified in <category>, it will behave as <ppanel>.
+           Parameters:
+           name         : name in the screen, compulsory
+           target       : filename or download URL of the ppanel, compulsory
+           Optional are : lock, confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+      -->
+      <ppanel name="Show Software management"
+              target="/var/etc/software.xml"
+              helptext="Show Software management"/>
+
+      <!-- Use <remove> to open the "Remove software" screen
+           THIS IS FOR PLI INTERNAL USE ONLY
+           Parameters:
+           name         : name in the screen, compulsory
+           Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+      -->
+      <!-- This example is commented
+           <remove name="Remove Software..."
+                   confirmation="true"/>
+      -->
+
+		<!-- Use <configwrite> to write a value to the Enigma config
+		     Parameters:
+			  name         : name in de the screen, compulsory
+			  target       : Enigma config key, compulsory
+			                 Note that target must be prefixed by 'i:', 'u:', 'd:' or 's:'
+			  value        : value to write, compulsory
+			  Optional are : confirmation, runBefore, runAfter, runBeforeOut, runAfterOut, condition, helptext, quit
+		-->
+      <!-- This example is commented
+           <configwrite name="Enable two services"
+                        target="i:/ezap/ci/handleTwoServices"
+                        value="1"/>
+      -->
+
+   </category>
+
+   <separator/>
+   <comment name="This menu is stored in"/>
+   <comment name="/var/etc/ppanels/PPanel_tutorial.xml"/>
+   <comment name=""/>
+   <comment name="Edit this file for your purposes"/>
+</directory>
