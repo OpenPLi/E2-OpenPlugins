@@ -10,10 +10,17 @@
 #include <iostream>
 #include <vector>
 
-#define TS_LEN       188
-#define TS_SYNC_BYTE 0x47
-#define TS_BUF_SIZE  (TS_LEN * 2048)
+/* #define USE_TS_FILTER */
 
+#ifdef USE_TS_FILTER
+# define TS_LEN       188
+# define TS_SYNC_BYTE 0x47
+# define BUFFER_SIZE  (TS_LEN * 2048)
+#else
+# define BUFFER_SIZE (256 * 1024)
+#endif
+
+#ifdef USE_TS_FILTER
 int syncTS(unsigned char *buf, int len)
 {
 	int i = 0;
@@ -30,6 +37,7 @@ int syncTS(unsigned char *buf, int len)
 	}
 	return i;
 }
+#endif
 
 unsigned long timevalToMs(const struct timeval *tv)
 {
@@ -123,7 +131,11 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 		::fcntl(fd, F_SETFL, O_NONBLOCK);
 		::ioctl(fd, DMX_SET_BUFFER_SIZE, 1024 * 1024);
 		dmx_pes_filter_params flt;
-		flt.pes_type = DMX_PES_OTHER;
+#ifdef USE_TS_FILTER
+		flt.pes_type = 0; /* officially not allowed, but on systems with ADD_PID support, this results in TS data */
+#else
+		flt.pes_type = DMX_PES_OTHER; /* PES payload data */
+#endif
 		flt.pid     = pids[i];
 		flt.input   = DMX_IN_FRONTEND;
 		flt.output  = DMX_OUT_TAP;
@@ -147,7 +159,7 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 
 	while (1)
 	{
-		unsigned char buf[TS_BUF_SIZE];
+		unsigned char buf[BUFFER_SIZE];
 		int maxfd = 0;
 		fd_set rset;
 		FD_ZERO(&rset);
@@ -169,7 +181,7 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 			{
 				int b_len = NBRead(fds[i], buf, sizeof(buf));
 				int b_start = 0;
-
+#ifdef USE_TS_FILTER
 				if (b_len >= TS_LEN)
 				{
 					b_start = syncTS(buf, b_len);
@@ -178,6 +190,7 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 				{
 					b_len = 0;
 				}
+#endif
 				int b = b_len - b_start;
 				if (b <= 0) continue;
 				b_total[i] += b;
@@ -193,9 +206,16 @@ int measureBitrate(int adapter, int demux, bool oneshot, std::vector<int> pids)
 			{
 				int d_tim_ms = deltaTimeMs(&tv, &first_tv);
 				avg_kb_s[i] = (b_total[i] * 8ULL) / (unsigned long long)d_tim_ms;
-				avg_kb_s[i] = avg_kb_s[i] * 97ULL / 100ULL;
 				curr_kb_s[i] = (b_tot1[i] * 8ULL) / (unsigned long long)d_print_ms;
+#ifdef USE_TS_FILTER
+				/* compensate for TS and PES overhead */
+				avg_kb_s[i] = avg_kb_s[i] * 97ULL / 100ULL;
 				curr_kb_s[i] = curr_kb_s[i] * 97ULL / 100ULL;
+#else
+				/* compensate for PES overhead */
+				avg_kb_s[i] = avg_kb_s[i] * 99ULL / 100ULL;
+				curr_kb_s[i] = curr_kb_s[i] * 99ULL / 100ULL;
+#endif
 				b_tot1[i] = 0;
 
 				if (curr_kb_s[i] < min_kb_s[i])
