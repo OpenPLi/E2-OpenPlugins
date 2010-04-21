@@ -21,6 +21,7 @@ AM_CONDITIONAL([DM7025], [test "$BOXTYPE" = "dm7025"])
 AC_OUTPUT([
 Makefile
 PLi/Makefile
+PLi/AutoBackup/Makefile
 PLi/PPanel/Makefile
 PLi/PPanel/data/Makefile
 PLi/SoftcamSetup/Makefile
