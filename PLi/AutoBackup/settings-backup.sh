@@ -27,3 +27,6 @@ cp /etc/samba/smb.conf ${BACKUPDIR}/backup/
 # todo: crontab?
 # todo: network?
 # todo: default?
+
+echo "Done"
+true

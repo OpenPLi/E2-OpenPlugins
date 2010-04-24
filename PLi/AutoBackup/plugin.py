@@ -14,8 +14,9 @@ from Plugins.Plugin import PluginDescriptor
 
 #Set default configuration
 config.plugins.autobackup = ConfigSubsection()
-config.plugins.autobackup.wakeup = ConfigClock(default = ((4*60) + 45) * 60) # 4:45
-config.plugins.autobackup.mode = ConfigSelection(default = "off", choices = [
+config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
+config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
+config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
 		("off", _("Disabled")),
 		("/media/hdd", _("Harddisk")),
 		("/media/usb", _("USB")), 
@@ -30,12 +31,14 @@ _session = None
 ##################################
 # Configuration GUI
 
+BACKUP_SCRIPT = "/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/settings-backup.sh"
+
 def runBackup():
-	destination = config.plugins.autobackup.mode.value
-	if destination and (destination != "off"):
+	destination = config.plugins.autobackup.where.value
+	if destination:
 		try:
 			print "[AutoBackup] **************** begin **************** destination:", destination
-			os.system("/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/settings-backup.sh %s" % destination)
+			os.system("%s %s" % (BACKUP_SCRIPT, destination))
 		except Exception, e:
 			print "[AutoBackup] FAIL:", e
 
@@ -53,14 +56,14 @@ class Config(ConfigListScreen,Screen):
 	<widget name="key_yellow" position="280,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 	<widget name="key_blue" position="420,0" size="140,40" valign="center" halign="center" zPosition="4"  foregroundColor="white" font="Regular;20" transparent="1" shadowColor="background" shadowOffset="-2,-2" />
 
-	<widget name="config" position="10,40" size="540,240" scrollbarMode="showOnDemand" />
+	<widget name="config" position="10,40" size="540,200" scrollbarMode="showOnDemand" />
+	<widget name="status" position="10,250" size="540,130" font="Regular;16" />
 
 	<ePixmap alphatest="on" pixmap="skin_default/icons/clock.png" position="480,383" size="14,14" zPosition="3"/>
 	<widget font="Regular;18" halign="left" position="505,380" render="Label" size="55,20" source="global.CurrentTime" transparent="1" valign="center" zPosition="3">
 		<convert type="ClockToText">Default</convert>
 	</widget>
 	<widget name="statusbar" position="10,380" size="470,20" font="Regular;18" />
-	<widget name="status" position="10,300" size="540,60" font="Regular;20" />
 </screen>"""
 		
 	def __init__(self, session, args = 0):
@@ -68,17 +71,18 @@ class Config(ConfigListScreen,Screen):
 		self.setup_title = _("AutoBackup Configuration")
 		Screen.__init__(self, session)
 		cfg = config.plugins.autobackup
-		self.list = [
-			getConfigListEntry(_("Daily automatic backup to"), cfg.mode),
+		configList = [
+			getConfigListEntry(_("Backup location"), cfg.where),
+			getConfigListEntry(_("Daily automatic backup"), cfg.enabled),
 			getConfigListEntry(_("Automatic start time"), cfg.wakeup),
 			]
-		ConfigListScreen.__init__(self, self.list, session = self.session, on_change = self.changedEntry)
-		self["status"] = Label()
-		self["statusbar"] = Label()
+		ConfigListScreen.__init__(self, configList, session=session, on_change = self.changedEntry)
 		self["key_red"] = Button(_("Cancel"))
 		self["key_green"] = Button(_("Ok"))
 		self["key_yellow"] = Button(_("Manual"))
-		self["key_blue"] = Button(_(""))
+		self["key_blue"] = Button("")
+		self["statusbar"] = Label()
+		self["status"] = Label()
 		self["setupActions"] = ActionMap(["SetupActions", "ColorActions"],
 		{
 			"red": self.cancel,
@@ -89,6 +93,10 @@ class Config(ConfigListScreen,Screen):
 			"ok": self.save,
 		}, -2)
 		self.onChangedEntry = []
+		self.data = ''
+		self.container = enigma.eConsoleAppContainer()
+		self.container.appClosed.append(self.appClosed)
+		self.container.dataAvail.append(self.dataAvail)
 	
 	# for summary:
 	def changedEntry(self):
@@ -111,18 +119,46 @@ class Config(ConfigListScreen,Screen):
 			x[1].cancel()
 		self.close(False,self.session)
 		
-
+	def showOutput(self):
+		self["status"].setText(self.data)
+		
 	def dobackup(self):
-		runBackup()
+		destination = config.plugins.autobackup.where.value
+		self.data = ''
+		self.showOutput()
+		self["statusbar"].setText(_('Running'))
+		cmd = "%s %s" % (BACKUP_SCRIPT, destination)
+		print "[AutoBackup] ***** start command:", cmd
+		if self.container.execute(BACKUP_SCRIPT + " " + destination):
+			print "[AutoBackup] ***** failed to execute"
+			self.showOutput()
+		
+	def appClosed(self, retval):
+		print "[AutoBackup] ***** done:", retval
+		if retval:
+			txt = _("Failed")
+		else:
+			txt = _("Done")
+		self.showOutput()
+		self.data = ''
+		self["statusbar"].setText(txt)
+
+	def dataAvail(self, str):
+		print "[AutoBackup] ***** data:", str
+		self.data += str
+		self.showOutput()
 		
 
 def main(session, **kwargs):
-    session.openWithCallback(doneConfiguring, Config)
+	print "[AutoBackup] main", kwargs
+	session.openWithCallback(doneConfiguring, Config)
 
 def doneConfiguring(session, retval):
-    "user has closed configuration, check new values...."
-    if autoStartTimer is not None:
-        autoStartTimer.update()
+	"user has closed configuration, check new values...."
+	print "[AutoBackup] result", retval
+	global autoStartTimer
+	if autoStartTimer is not None:
+		autoStartTimer.update()
 
 ##################################
 # Autostart section
@@ -133,7 +169,7 @@ class AutoStartTimer:
 	    	self.timer.callback.append(self.onTimer)
 	    	self.update()
 	def getWakeTime(self):
-	    if config.plugins.autobackup.mode.value and (config.plugins.autobackup.mode.value != "off"):
+	    if config.plugins.autobackup.enabled.value:
 	        clock = config.plugins.autobackup.wakeup.value
 	        nowt = time.time()
 		now = time.localtime(nowt)
@@ -184,13 +220,9 @@ def Plugins(**kwargs):
         PluginDescriptor(
             name="AutoBackup",
             description = description,
-            where = [
-                PluginDescriptor.WHERE_AUTOSTART,
-                PluginDescriptor.WHERE_SESSIONSTART
-            ],
+            where = [PluginDescriptor.WHERE_AUTOSTART, PluginDescriptor.WHERE_SESSIONSTART],
             fnc = autostart
         ),
-    
         PluginDescriptor(
             name="AutoBackup",
             description = description,
@@ -199,5 +231,4 @@ def Plugins(**kwargs):
             fnc = main
         ),
     ]
-
     return result
