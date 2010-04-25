@@ -37,7 +37,6 @@ def runBackup():
 	destination = config.plugins.autobackup.where.value
 	if destination:
 		try:
-			print "[AutoBackup] **************** begin **************** destination:", destination
 			os.system("%s %s" % (BACKUP_SCRIPT, destination))
 		except Exception, e:
 			print "[AutoBackup] FAIL:", e
@@ -128,13 +127,12 @@ class Config(ConfigListScreen,Screen):
 		self.showOutput()
 		self["statusbar"].setText(_('Running'))
 		cmd = "%s %s" % (BACKUP_SCRIPT, destination)
-		print "[AutoBackup] ***** start command:", cmd
 		if self.container.execute(BACKUP_SCRIPT + " " + destination):
-			print "[AutoBackup] ***** failed to execute"
+			print "[AutoBackup] failed to execute"
 			self.showOutput()
 		
 	def appClosed(self, retval):
-		print "[AutoBackup] ***** done:", retval
+		print "[AutoBackup] done:", retval
 		if retval:
 			txt = _("Failed")
 		else:
@@ -144,18 +142,15 @@ class Config(ConfigListScreen,Screen):
 		self["statusbar"].setText(txt)
 
 	def dataAvail(self, str):
-		print "[AutoBackup] ***** data:", str
 		self.data += str
 		self.showOutput()
 		
 
 def main(session, **kwargs):
-	print "[AutoBackup] main", kwargs
 	session.openWithCallback(doneConfiguring, Config)
 
 def doneConfiguring(session, retval):
 	"user has closed configuration, check new values...."
-	print "[AutoBackup] result", retval
 	global autoStartTimer
 	if autoStartTimer is not None:
 		autoStartTimer.update()
