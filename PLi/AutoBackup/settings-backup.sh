@@ -8,25 +8,28 @@ then
 fi
 BACKUPDIR="$1"
 
+echo "Backup to ${BACKUPDIR}"
+
 mkdir -p ${BACKUPDIR}/backup/enigma2
 cp -a /etc/enigma2/* ${BACKUPDIR}/backup/enigma2/
 
-[ -f /home/root/.ssh ] && cp -rp /home/root/.ssh ${BACKUPDIR}/backup/
-cp /etc/dropbear/dropbear_rsa_host_key ${BACKUPDIR}/backup/ 
+[ -d /home/root/.ssh ] && cp -rp /home/root/.ssh ${BACKUPDIR}/backup/
+cp -p /etc/dropbear/dropbear_rsa_host_key ${BACKUPDIR}/backup/ 
 
 for file in CCcam.cfg CCcam.prio CCcam.channelinfo CCcam.providers radegast.cfg newsreader.conf NETcaster.conf resolv.conf fstab passwd
 do
-	[ -f /etc/$file ] && cp  /etc/$file ${BACKUPDIR}/backup/
+	[ -f /etc/$file ] && cp -p /etc/$file ${BACKUPDIR}/backup/
 done
 
 cp /etc/samba/smb.conf ${BACKUPDIR}/backup/
 
-[ -f /etc/tuxbox/config/newcamd.conf ] && cp /etc/tuxbox/config/newcamd.conf ${BACKUPDIR}/backup/
+[ -f /etc/tuxbox/config/newcamd.conf ] && cp -p /etc/tuxbox/config/newcamd.conf ${BACKUPDIR}/backup/
 
 # todo: other cams?
 # todo: crontab?
 # todo: network?
 # todo: default?
 
-echo "Done"
+touch ${BACKUPDIR}/backup/.timestamp
+
 true
