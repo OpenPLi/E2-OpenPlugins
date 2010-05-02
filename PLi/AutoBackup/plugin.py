@@ -19,8 +19,9 @@ config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
 config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
 		("off", _("Disabled")),
 		("/media/hdd", _("Harddisk")),
-		("/media/usb", _("USB")), 
-		("/media/cf", _("CF"))
+		("/media/usb", _("USB")),
+		("/media/cf", _("CF")),
+		("/media/mmc1", _("SD"))
 		])
 
 
