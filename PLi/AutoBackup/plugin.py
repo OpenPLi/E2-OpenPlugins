@@ -1,9 +1,10 @@
 import time
 import os
 import enigma
-from Components.config import config, ConfigEnableDisable, ConfigSubsection, \
-			 ConfigYesNo, ConfigClock, getConfigListEntry, \
-			 ConfigSelection, ConfigNumber
+from Components.config import config, configfile, \
+			ConfigEnableDisable, ConfigSubsection, \
+			ConfigYesNo, ConfigClock, getConfigListEntry, \
+			ConfigSelection
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Components.ConfigList import ConfigListScreen
@@ -123,6 +124,9 @@ class Config(ConfigListScreen,Screen):
 		self["status"].setText(self.data)
 		
 	def dobackup(self):
+		self.saveAll()
+		# Write config file before creating the backup so we have it all
+		configfile.save()
 		destination = config.plugins.autobackup.where.value
 		self.data = ''
 		self.showOutput()
