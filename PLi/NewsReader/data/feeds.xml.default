@@ -2,104 +2,24 @@
 
 <feeds>
 	<feed>
-		<name>[NL] SAT: PLi Dreambox Algemeen</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=2</url>
+		<name>[NL] SAT: PLi Gebruikersondersteuning</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=64</url>
 	</feed>
 	<feed>
-		<name>[NL] SAT: PLi images voor de DM500</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=8</url>
+		<name>[EN] SAT: PLi Enduser support</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=65</url>
 	</feed>
 	<feed>
-		<name>[NL] SAT: PLi images voor de DM500Plus</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=45</url>
+		<name>[DE] SAT: PLi Benutzerunterstutzung</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=66</url>
 	</feed>	
 	<feed>
-		<name>[NL] SAT: PLi images voor de DM56x0</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=7</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM600</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=37</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM7000</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=6</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM7020</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=5</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM7025 en DM7025Plus</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=50</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM800</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=55</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de DM8000</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=58</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images voor de VU+ Duo</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=60</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi Dreambox General</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=28</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM500</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=32</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM500Plus</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=47</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM56x0</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=31</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM600</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=36</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM7000</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=30</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM7020</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=29</url>
-	</feed>
-	<feed>
-		<name>[EN] SAT: PLi images for the DM7025 and DM7025Plus</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=51</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images for the DM800</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=56</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images for the DM8000</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=59</url>
-	</feed>
-	<feed>
-		<name>[NL] SAT: PLi images for the VU+ Duo</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=61</url>
+		<name>[EN] SAT: PLi/Rytec XMLTV and EPG support</name>
+		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=62</url>
 	</feed>
 	<feed>
 		<name>[EN] SAT: PLi images: Third-Party Development</name>
 		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=48</url>
-	</feed>
-	<feed>
-		<name>[D] SAT: PLi images: Enigma1 algemein</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=53</url>
-	</feed>
-	<feed>
-		<name>[D] SAT: PLi images: Enigma2 algemein</name>
-		<url>http://www.pli-images.org/feeds.php?type=forum&#38;id=54</url>
 	</feed>
 	<feed>
 		<name>[NL] SAT: Satellietforum nieuws</name>
