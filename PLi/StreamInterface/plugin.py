@@ -30,7 +30,7 @@ class BouquetList(resource.Resource):
 			for (ref, name) in sub:
 				s = s + '<p>'
 				ref = ref.replace(' ', '%20').replace(':', '%3A').replace('"', '%22')
-				s = s + '<a href="/channel/?ref=' + ref + '">' + name + '</a>'
+				s = s + '<a href="/channel?ref=' + ref + '">' + name + '</a>'
 			req.setResponseCode(200)
 			req.setHeader('Content-type', 'text/html');
 			return s;
