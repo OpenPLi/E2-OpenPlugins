@@ -12,13 +12,13 @@ from Components.ActionMap import ActionMap
 from Components.Button import Button
 from Components.Label import Label
 from Plugins.Plugin import PluginDescriptor
+from Tools.FuzzyDate import FuzzyTime
 
 #Set default configuration
 config.plugins.autobackup = ConfigSubsection()
 config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
 config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
 config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
-		("off", _("Disabled")),
 		("/media/hdd", _("Harddisk")),
 		("/media/usb", _("USB")),
 		("/media/cf", _("CF")),
@@ -89,6 +89,7 @@ class Config(ConfigListScreen,Screen):
 			"red": self.cancel,
 			"green": self.save,
 			"yellow": self.dobackup,
+			"blue": self.disable,
 			"save": self.save,
 			"cancel": self.cancel,
 			"ok": self.save,
@@ -98,6 +99,8 @@ class Config(ConfigListScreen,Screen):
 		self.container = enigma.eConsoleAppContainer()
 		self.container.appClosed.append(self.appClosed)
 		self.container.dataAvail.append(self.dataAvail)
+		cfg.where.addNotifier(self.changedWhere)
+		self.onClose.append(self.__onClose)
 	
 	# for summary:
 	def changedEntry(self):
@@ -110,6 +113,36 @@ class Config(ConfigListScreen,Screen):
 	def createSummary(self):
 		from Screens.Setup import SetupSummary
 		return SetupSummary
+
+	def changedWhere(self, cfg):
+		self.isActive = False
+		path = os.path.join(cfg.value, 'backup')
+		if not os.path.exists(path):
+			self["status"].setText(_("No backup present"))
+		else:
+			try:
+				st = os.stat(os.path.join(path, ".timestamp"))
+				self.isActive = True
+				self["status"].setText(_("Last backup date") + ": " + " ".join(FuzzyTime(st.st_mtime, inPast=True)))
+			except Exception, ex:
+				print "Failed to stat %s: %s" % (path, ex)
+				self["status"].setText(_("Disabled"))
+		if self.isActive:
+			self["key_blue"].setText(_("Disable"))
+		else:
+			self["key_blue"].setText("")
+
+	def disable(self):
+		cfg = config.plugins.autobackup.where
+		path = os.path.join(cfg.value, 'backup', ".timestamp")
+		try:
+			os.unlink(path)
+		except:
+			pass
+		self.changedWhere(cfg)
+
+	def __onClose(self):
+		config.plugins.autobackup.where.notifiers.remove(self.changedWhere)
 
 	def save(self):
 		self.saveAll()
@@ -145,6 +178,7 @@ class Config(ConfigListScreen,Screen):
 		self.showOutput()
 		self.data = ''
 		self["statusbar"].setText(txt)
+		self.changedWhere(config.plugins.autobackup.where)
 
 	def dataAvail(self, str):
 		self.data += str
