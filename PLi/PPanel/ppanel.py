@@ -48,7 +48,7 @@ class PPanelEntry(Screen):
 
 	def runAfterCommands(self):
 		if self.runAfter is not '':
-			sytem(self.runAfter)
+			system(self.runAfter)
 		if self.runAfterOut is not '':
 			self.session.open(Execute, self.name, None, self.runAfterOut)
 
