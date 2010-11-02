@@ -23,7 +23,11 @@ done
 
 cp /etc/samba/smb.conf ${BACKUPDIR}/backup/
 
-[ -f /etc/tuxbox/config/newcamd.conf ] && cp -p /etc/tuxbox/config/newcamd.conf ${BACKUPDIR}/backup/
+if [ -d /etc/tuxbox/config ]
+then
+	mkdir -p ${BACKUPDIR}/backup/tuxbox
+	cp -rp /etc/tuxbox/config ${BACKUPDIR}/backup/tuxbox/
+fi
 
 crontab -l > /tmp/crontab 2> /dev/null && cp -f /tmp/crontab ${BACKUPDIR}/backup/crontab
 rm -f /tmp/crontab
