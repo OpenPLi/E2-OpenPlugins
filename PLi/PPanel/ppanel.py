@@ -399,28 +399,32 @@ class ToplevelPPanel(PPanel):
 		attr = newdoc.createAttribute("name")
 		attr.nodeValue = "Installed PPanels"
 		newdoc.documentElement.setAttributeNode(attr)
+		self.load("/etc/ppanels/", newdoc)
+		if path.isdir("/etc/enigma2/ppanels"):
+			self.load("/etc/enigma2/ppanels/", newdoc)
+		PPanel.__init__(self, session = session, node = newdoc.documentElement, deletenode = newdoc)
+
+	def load(self, ppaneldir, newdoc):
 		for ppanelfile in listdir(ppaneldir):
 			fullname = path.join(ppaneldir, ppanelfile)
 			if path.isfile(fullname):
-				if len(ppanelfile) > 4:
-					if ppanelfile[len(ppanelfile) - 4:len(ppanelfile)] == ".xml":
-						try:
-							node = parse(fullname)
-							if node.documentElement:
-								name = node.documentElement.getAttribute("name")
-								if name is not '':
-									ppanel = newdoc.createElement("ppanel")
-									attr = newdoc.createAttribute("name")
-									attr.nodeValue = name
-									ppanel.setAttributeNode(attr)
-									attr = newdoc.createAttribute("target")
-									attr.nodeValue = fullname
-									ppanel.setAttributeNode(attr)
-									newdoc.documentElement.appendChild(ppanel)
-							del node
-						except:
-							print "Illegal xml file"
-		PPanel.__init__(self, session = session, node = newdoc.documentElement, deletenode = newdoc)
+				if ppanelfile.endswith(".xml"):
+					try:
+						node = parse(fullname)
+						if node.documentElement:
+							name = node.documentElement.getAttribute("name")
+							if name:
+								ppanel = newdoc.createElement("ppanel")
+								attr = newdoc.createAttribute("name")
+								attr.nodeValue = name
+								ppanel.setAttributeNode(attr)
+								attr = newdoc.createAttribute("target")
+								attr.nodeValue = fullname
+								ppanel.setAttributeNode(attr)
+								newdoc.documentElement.appendChild(ppanel)
+						del node
+					except:
+						print "Illegal xml file", fullname
 
 class PLiPPanel:
 	def __init__(self):
