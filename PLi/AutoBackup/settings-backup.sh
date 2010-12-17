@@ -7,6 +7,8 @@ then
 	exit 1
 fi
 BACKUPDIR="$1"
+PLI_BACKUPFILE=/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/backup.cfg
+USER_BACKUPFILE=/etc/backup.cfg
 
 echo "Backup to ${BACKUPDIR}"
 
@@ -14,12 +16,23 @@ mkdir -p ${BACKUPDIR}/backup/enigma2
 cp -a /etc/enigma2/* ${BACKUPDIR}/backup/enigma2/
 
 [ -d /home/root/.ssh ] && cp -rp /home/root/.ssh ${BACKUPDIR}/backup/
-cp -p /etc/dropbear/dropbear_rsa_host_key ${BACKUPDIR}/backup/ 
+cp -p /etc/dropbear/dropbear_rsa_host_key ${BACKUPDIR}/backup/
 
-for file in CCcam.cfg CCcam.prio CCcam.channelinfo CCcam.providers radegast.cfg newsreader.conf NETcaster.conf resolv.conf fstab passwd wpa_supplicant.conf
+if [ -f ${PLI_BACKUPFILE} ]
+then
+for file in $(cat ${PLI_BACKUPFILE})
 do
-	[ -f /etc/$file ] && cp -p /etc/$file ${BACKUPDIR}/backup/
+        [ -f /etc/$file ] && cp -p /etc/$file ${BACKUPDIR}/backup/
 done
+fi
+
+if [ -f ${USER_BACKUPFILE} ]
+then
+for file in $(cat ${USER_BACKUPFILE})
+do
+        [ -f $file ] && cp -p $file ${BACKUPDIR}/backup/
+done
+fi
 
 cp /etc/samba/smb.conf ${BACKUPDIR}/backup/
 
