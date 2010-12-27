@@ -73,7 +73,7 @@ tar -czf ${BACKUPDIR}/backup/PLi-AutoBackup.tar.gz --files-from=/tmp/restore.cfg
 if [ -f ${INSTALLED} ]
 then
 	echo "Generating ${BACKUPDIR}/backup/autoinstall"
-	${IPKG} list_installed | awk '{print $1}' > ${TEMP_INSTALLED}
+	${IPKG} list_installed | cut -d ' ' -f 1 > ${TEMP_INSTALLED}
 	diff ${INSTALLED} ${TEMP_INSTALLED} | grep '+' | grep -v '@' | grep -v '+++' | sed 's/^+//' > ${BACKUPDIR}/backup/autoinstall
 	
 	if [ -f ${USER_AUTOINSTALL} ] 
