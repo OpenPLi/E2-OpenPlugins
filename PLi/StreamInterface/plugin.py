@@ -1,8 +1,7 @@
 from Plugins.Plugin import PluginDescriptor
 
-from twisted.internet import reactor, defer
-from twisted.web import server, http
-from twisted.web import resource, static, http, http_headers
+from twisted.internet import reactor
+from twisted.web import resource 
 
 from Components.config import config
 from Components.Sources.ServiceList import ServiceList
