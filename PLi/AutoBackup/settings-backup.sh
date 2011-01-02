@@ -22,6 +22,7 @@ else
 fi
 
 echo "Backup to ${BACKUPDIR}/backup/"
+mkdir -p ${BACKUPDIR}/backup
 
 if [ -f ${PLI_BACKUPFILE} ] 
 then
