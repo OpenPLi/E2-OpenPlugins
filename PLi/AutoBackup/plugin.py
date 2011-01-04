@@ -4,7 +4,7 @@ import enigma
 from Components.config import config, configfile, \
 			ConfigEnableDisable, ConfigSubsection, \
 			ConfigYesNo, ConfigClock, getConfigListEntry, \
-			ConfigSelection
+			ConfigSelection, ConfigOnOff
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Components.ConfigList import ConfigListScreen
@@ -18,6 +18,7 @@ from Tools.FuzzyDate import FuzzyTime
 config.plugins.autobackup = ConfigSubsection()
 config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
 config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
+config.plugins.autobackup.autoinstall = ConfigOnOff(default = True)
 config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
 		("/media/hdd", _("Harddisk")),
 		("/media/usb", _("USB")),
@@ -35,11 +36,19 @@ _session = None
 
 BACKUP_SCRIPT = "/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/settings-backup.sh"
 
+
+def backupCommand():
+	cmd = BACKUP_SCRIPT
+	if config.plugins.autobackup.autoinstall.value:
+		cmd += " -a"
+	cmd += " " + config.plugins.autobackup.where.value
+	return cmd
+
 def runBackup():
 	destination = config.plugins.autobackup.where.value
 	if destination:
 		try:
-			os.system("%s %s" % (BACKUP_SCRIPT, destination))
+			os.system(backupCommand())
 		except Exception, e:
 			print "[AutoBackup] FAIL:", e
 
@@ -76,6 +85,7 @@ class Config(ConfigListScreen,Screen):
 			getConfigListEntry(_("Backup location"), cfg.where),
 			getConfigListEntry(_("Daily automatic backup"), cfg.enabled),
 			getConfigListEntry(_("Automatic start time"), cfg.wakeup),
+			getConfigListEntry (_("Create Autoinstall"), cfg.autoinstall),
 			]
 		ConfigListScreen.__init__(self, configList, session=session, on_change = self.changedEntry)
 		self["key_red"] = Button(_("Cancel"))
@@ -160,15 +170,14 @@ class Config(ConfigListScreen,Screen):
 		self.saveAll()
 		# Write config file before creating the backup so we have it all
 		configfile.save()
-		destination = config.plugins.autobackup.where.value
 		self.data = ''
 		self.showOutput()
 		self["statusbar"].setText(_('Running'))
-		cmd = "%s %s" % (BACKUP_SCRIPT, destination)
-		if self.container.execute(BACKUP_SCRIPT + " " + destination):
+		cmd = backupCommand()
+		if self.container.execute(cmd):
 			print "[AutoBackup] failed to execute"
 			self.showOutput()
-		
+
 	def appClosed(self, retval):
 		print "[AutoBackup] done:", retval
 		if retval:
