@@ -18,7 +18,7 @@ from Tools.FuzzyDate import FuzzyTime
 config.plugins.autobackup = ConfigSubsection()
 config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
 config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
-config.plugins.autobackup.autoinstall = ConfigOnOff(default = True)
+config.plugins.autobackup.autoinstall = ConfigOnOff(default = False)
 config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
 		("/media/hdd", _("Harddisk")),
 		("/media/usb", _("USB")),
