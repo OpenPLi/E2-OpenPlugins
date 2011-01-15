@@ -72,11 +72,11 @@ cp -f /etc/passwd /tmp && echo /tmp/passwd >> ${RESTORE_TEMP}
 
 if [ -f /etc/fstab ]
 then
-  for fstype in cifs nfs swap
+  for fstype in ' cifs ' ' nfs ' ' swap ' '^UUID=' '^LABEL='
   do
-    grep -q " ${fstype} " /etc/fstab || grep " ${fstype} " /etc/fstab >> /tmp/fstab
+    grep "${fstype}" /etc/fstab >> /tmp/fstab
   done
-echo /tmp/fstab >> ${RESTORE_TEMP} 
+  [ -s /tmp/fstab ] && echo /tmp/fstab >> ${RESTORE_TEMP} 
 fi
 
 crontab -l > /tmp/crontab 2> /dev/null && echo /tmp/crontab >> ${RESTORE_TEMP}
