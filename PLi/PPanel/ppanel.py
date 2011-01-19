@@ -100,7 +100,7 @@ class PPanel(PPanelEntry):
 
 		self.runBeforeOut = e.getAttribute("runBeforeOut")
 
-		confirmation = e.getAttribute("confirmation")
+		confirmation = e.getAttribute("confirmation").encode('utf-8')
 		if confirmation is not '':
 			if confirmation == "true":
 				self.session.openWithCallback(self.confirmationResult, MessageBox, _("Are you sure?"))
@@ -125,7 +125,7 @@ class PPanel(PPanelEntry):
 			return
 
 		if e.localName == "ppanel":
-			target = e.getAttribute("target")
+			target = e.getAttribute("target").encode('utf-8')
 			self.session.open(PPanel, name, e, target)
 		elif e.localName == "category":
 			self.session.open(PPanel, name, e)
@@ -134,7 +134,7 @@ class PPanel(PPanelEntry):
 		elif e.localName == "tarball":
 			self.session.open(Tarball, name, e)
 		elif e.localName == "execute":
-			target = e.getAttribute("target")
+			target = e.getAttribute("target").encode('utf-8')
 			self.session.open(Execute, name, e, target)
 		#elif e.localName == "picture":
 		#	self.session.open(Picture, name, e)
@@ -184,7 +184,7 @@ class PPanel(PPanelEntry):
 					#TODO
 					continue
 
-				name = e.getAttribute("name")
+				name = e.getAttribute("name").encode('utf-8')
 				if name == '':
 					continue
 
@@ -193,7 +193,7 @@ class PPanel(PPanelEntry):
 					self.nodelist.append((str(name),))
 					continue
 
-				helptext = e.getAttribute("helptext")
+				helptext = e.getAttribute("helptext").encode('utf-8')
 
 				self.nodelist.append((str(name), e, str(helptext)))
 
