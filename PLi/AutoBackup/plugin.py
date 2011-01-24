@@ -229,6 +229,10 @@ class AutoStartTimer:
 				# Tomorrow.
 				wake += 24*3600
 			next = wake - now
+			# it could be that we do not have the correct system time yet,
+			# limit the update interval to 1h, to make sure we try again soon
+			if next > 3600:
+				next = 3600
 			self.timer.startLongTimer(next)
 		else:
 			wake = -1
