@@ -233,6 +233,10 @@ class AutoStartTimer:
 			# limit the update interval to 1h, to make sure we try again soon
 			if next > 3600:
 				next = 3600
+			# also, depending on the value of 'atLeast', next could be negative.
+			# which would stop our time
+			if next <= 0:
+				next = 60
 			self.timer.startLongTimer(next)
 		else:
 			wake = -1
@@ -243,7 +247,7 @@ class AutoStartTimer:
 		wake = self.getWakeTime()
 		# If we're close enough, we're okay...
 		atLeast = 0
-		if wake - now < 60:
+		if abs(wake - now) < 60:
 			runBackup() 
 			atLeast = 60
 		self.update(atLeast)
