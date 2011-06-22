@@ -22,6 +22,7 @@ AC_OUTPUT([
 Makefile
 PLi/Makefile
 PLi/AutoBackup/Makefile
+PLi/BuienRadar/Makefile
 PLi/PPanel/Makefile
 PLi/PPanel/data/Makefile
 PLi/SoftcamSetup/Makefile
