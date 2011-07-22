@@ -48,7 +48,20 @@ def runBackup():
 	destination = config.plugins.autobackup.where.value
 	if destination:
 		try:
-			os.system(backupCommand())
+			global container  # Need to keep a ref alive...
+			def appClosed(retval):
+				global container
+				print "[AutoBackup] complete, result:", retval
+				container = None
+			def dataAvail(data):
+				print "[AutoBackup]", data.rstrip()
+			print "[AutoBackup] start daily backup"
+			cmd = backupCommand()
+			container = enigma.eConsoleAppContainer()
+			if container.execute(cmd):
+				raise Exception, "failed to execute:" + cmd
+			container.appClosed.append(appClosed)
+			container.dataAvail.append(dataAvail)
 		except Exception, e:
 			print "[AutoBackup] FAIL:", e
 
