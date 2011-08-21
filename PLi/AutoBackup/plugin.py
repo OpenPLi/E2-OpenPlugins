@@ -14,17 +14,29 @@ from Components.Label import Label
 from Plugins.Plugin import PluginDescriptor
 from Tools.FuzzyDate import FuzzyTime
 
+FRIENDLY = {
+	"/media/hdd": _("Harddisk"),
+	"/media/usb": _("USB"),
+	"/media/cf": _("CF"),
+	"/media/mmc1": _("SD"),
+	}
+def getLocationChoices():
+	result = []
+	for line in open('/proc/mounts', 'r'):
+		items = line.split()
+		if items[1].startswith('/media'):
+			desc = FRIENDLY.get(items[1], items[1])
+			if items[0].startswith('//'):
+				desc += ' (*)'
+			result.append((items[1], desc))
+	return result
+
 #Set default configuration
 config.plugins.autobackup = ConfigSubsection()
 config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
 config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
 config.plugins.autobackup.autoinstall = ConfigOnOff(default = False)
-config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = [
-		("/media/hdd", _("Harddisk")),
-		("/media/usb", _("USB")),
-		("/media/cf", _("CF")),
-		("/media/mmc1", _("SD"))
-		])
+config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = getLocationChoices())
 
 
 # Global variables
@@ -94,6 +106,7 @@ class Config(ConfigListScreen,Screen):
 		self.setup_title = _("AutoBackup Configuration")
 		Screen.__init__(self, session)
 		cfg = config.plugins.autobackup
+		cfg.where.setChoices(getLocationChoices(), cfg.where.value)
 		configList = [
 			getConfigListEntry(_("Backup location"), cfg.where),
 			getConfigListEntry(_("Daily automatic backup"), cfg.enabled),
