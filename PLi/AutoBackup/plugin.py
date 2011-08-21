@@ -77,6 +77,29 @@ def runBackup():
 		except Exception, e:
 			print "[AutoBackup] FAIL:", e
 
+def getStandardFiles():
+	return [os.path.normpath(n.strip()) for n in open('/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/backup.cfg', 'r')]
+
+def getSelectedFiles():
+	result = getStandardFiles()
+	try:
+		result += [os.path.normpath(n.strip()) for n in open('/etc/backup.cfg', 'r')]
+	except:
+		# ignore missing user cfg file
+		pass
+	return result
+
+def saveSelectedFiles(files):
+	standard = getStandardFiles()
+	try:
+		f = open('/etc/backup.cfg', 'w')
+		for fn in files:
+			fn = os.path.normpath(fn)
+			if fn not in standard:
+				f.write(fn + '\n')
+		f.close()
+	except Exception, ex:
+		print "[AutoBackup] Failed to write /etc/backup.cfg", ex
 
 class Config(ConfigListScreen,Screen):
 	skin = """
@@ -120,7 +143,7 @@ class Config(ConfigListScreen,Screen):
 		self["key_blue"] = Button("")
 		self["statusbar"] = Label()
 		self["status"] = Label()
-		self["setupActions"] = ActionMap(["SetupActions", "ColorActions"],
+		self["setupActions"] = ActionMap(["SetupActions", "ColorActions", "MenuActions"],
 		{
 			"red": self.cancel,
 			"green": self.save,
@@ -129,6 +152,7 @@ class Config(ConfigListScreen,Screen):
 			"save": self.save,
 			"cancel": self.cancel,
 			"ok": self.save,
+			"menu": self.menu,
 		}, -2)
 		self.onChangedEntry = []
 		self.data = ''
@@ -189,6 +213,9 @@ class Config(ConfigListScreen,Screen):
 			x[1].cancel()
 		self.close(False,self.session)
 
+	def menu(self):
+		self.session.open(BackupSelection)
+
 	def showOutput(self):
 		self["status"].setText(self.data)
 
@@ -219,6 +246,75 @@ class Config(ConfigListScreen,Screen):
 		self.data += str
 		self.showOutput()
 
+class BackupSelection(Screen):
+	skin = """
+		<screen name="BackupSelection" position="center,center" size="560,400" title="Select files/folders to backup">
+			<ePixmap pixmap="skin_default/buttons/red.png" position="0,0" size="140,40" alphatest="on" />
+			<ePixmap pixmap="skin_default/buttons/green.png" position="140,0" size="140,40" alphatest="on" />
+			<ePixmap pixmap="skin_default/buttons/yellow.png" position="280,0" size="140,40" alphatest="on" />
+			<widget source="key_red" render="Label" position="0,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#9f1313" transparent="1" />
+			<widget source="key_green" render="Label" position="140,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#1f771f" transparent="1" />
+			<widget source="key_yellow" render="Label" position="280,0" zPosition="1" size="140,40" font="Regular;20" halign="center" valign="center" backgroundColor="#a08500" transparent="1" />
+			<widget name="checkList" position="5,50" size="550,350" transparent="1" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		from Components.Sources.StaticText import StaticText
+		from Components.FileList import MultiFileSelectList
+		self["key_red"] = StaticText(_("Cancel"))
+		self["key_green"] = StaticText(_("Save"))
+		self["key_yellow"] = StaticText()
+		selectedFiles = getSelectedFiles()
+		defaultDir = '/'
+		inhibitDirs = ["/bin", "/boot", "/dev", "/autofs", "/lib", "/proc", "/sbin", "/sys", "/hdd", "/tmp", "/mnt", "/media"]
+		self.filelist = MultiFileSelectList(selectedFiles, defaultDir, inhibitDirs = inhibitDirs )
+		self["checkList"] = self.filelist
+		self["actions"] = ActionMap(["DirectionActions", "OkCancelActions", "ShortcutActions"],
+		{
+			"cancel": self.exit,
+			"red": self.exit,
+			"yellow": self.changeSelectionState,
+			"green": self.saveSelection,
+			"ok": self.okClicked,
+			"left": self.filelist.pageUp,
+			"right": self.filelist.pageDown,
+			"down": self.filelist.down,
+			"up": self.filelist.up
+		}, -1)
+		if not self.selectionChanged in self.filelist.onSelectionChanged:
+			self.filelist.onSelectionChanged.append(self.selectionChanged)
+		self.onLayoutFinish.append(self.layoutFinished)
+
+	def layoutFinished(self):
+		idx = 0
+		self["checkList"].moveToIndex(idx)
+		self.setWindowTitle()
+		self.selectionChanged()
+
+	def setWindowTitle(self):
+		self.setTitle(_("Select files/folders to backup"))
+
+	def selectionChanged(self):
+		current = self["checkList"].getCurrent()[0]
+		if current[2] is True:
+			self["key_yellow"].setText(_("Deselect"))
+		else:
+			self["key_yellow"].setText(_("Select"))
+
+	def changeSelectionState(self):
+		self["checkList"].changeSelectionState()
+
+	def saveSelection(self):
+		saveSelectedFiles(self["checkList"].getSelectedList())
+		self.close(None)
+
+	def exit(self):
+		self.close(None)
+
+	def okClicked(self):
+		if self.filelist.canDescent():
+			self.filelist.descent()
 
 def main(session, **kwargs):
 	session.openWithCallback(doneConfiguring, Config)
