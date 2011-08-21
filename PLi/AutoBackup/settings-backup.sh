@@ -25,6 +25,7 @@ USER_AUTOINSTALL=/etc/autoinstall
 INSTALLED=/etc/installed
 TEMP_INSTALLED=/tmp/installed
 RESTORE_TEMP=/tmp/restore.cfg
+MACADDR=`cat /sys/class/net/eth0/address | cut -b 1,2,4,5,7,8,10,11,13,14`
 
 if [ -x /usr/bin/opkg ]
 then
@@ -81,25 +82,30 @@ fi
 
 crontab -l > /tmp/crontab 2> /dev/null && echo /tmp/crontab >> ${RESTORE_TEMP}
 
-tar -czf ${BACKUPDIR}/backup/PLi-AutoBackup.tar.gz --files-from=/tmp/restore.cfg 2> /dev/null
+tar -czf ${BACKUPDIR}/backup/PLi-AutoBackup${MACADDR}.tar.gz --files-from=/tmp/restore.cfg 2> /dev/null
+if [ ! -z "${MACADDR}" ]
+then
+	ln -f -s PLi-AutoBackup${MACADDR}.tar.gz ${BACKUPDIR}/backup/PLi-AutoBackup.tar.gz
+fi
 
 if [ "${AUTOINSTALL}" == "yes" -a -f ${INSTALLED} ]
 then
-	echo "Generating ${BACKUPDIR}/backup/autoinstall"
+	echo "Generating ${BACKUPDIR}/backup/autoinstall${MACADDR}"
 	${IPKG} list_installed | cut -d ' ' -f 1 > ${TEMP_INSTALLED}
-	diff ${INSTALLED} ${TEMP_INSTALLED} | grep '+' | grep -v '@' | grep -v '+++' | sed 's/^+//' > ${BACKUPDIR}/backup/autoinstall
-	
+	diff ${INSTALLED} ${TEMP_INSTALLED} | grep '+' | grep -v '@' | grep -v '+++' | sed 's/^+//' > ${BACKUPDIR}/backup/autoinstall${MACADDR}
 	if [ -f ${USER_AUTOINSTALL} ]
-		then
-			for plugin in `cat ${USER_AUTOINSTALL}`
-				do
-				cp -p ${BACKUPDIR}/backup/autoinstall /tmp/autoinstall
-
-				pluginname=`echo ${plugin} | sed 's/_.*//' | sed -re 's/^.+\///'`
-
-				cat /tmp/autoinstall | grep -v "$pluginname$" > ${BACKUPDIR}/backup/autoinstall
-				done
-		cat ${USER_AUTOINSTALL} >> ${BACKUPDIR}/backup/autoinstall
+	then
+		for plugin in `cat ${USER_AUTOINSTALL}`
+		do
+			cp -p ${BACKUPDIR}/backup/autoinstall /tmp/autoinstall
+			pluginname=`echo ${plugin} | sed 's/_.*//' | sed -re 's/^.+\///'`
+			cat /tmp/autoinstall | grep -v "$pluginname$" > ${BACKUPDIR}/backup/autoinstall${MACADDR}
+		done
+		cat ${USER_AUTOINSTALL} >> ${BACKUPDIR}/backup/autoinstall${MACADDR}
+	fi
+	if [ ! -z "${MACADDR}" ]
+	then
+		ln -f -s autoinstall${MACADDR} ${BACKUPDIR}/backup/autoinstall
 	fi
 fi
 
