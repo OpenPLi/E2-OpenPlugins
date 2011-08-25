@@ -182,6 +182,13 @@ class Config(ConfigListScreen,Screen):
 		else:
 			try:
 				st = os.stat(os.path.join(path, ".timestamp"))
+				try:
+					macaddr = open('/sys/class/net/eth0/address').read().strip().replace(':','')
+					fn = "PLi-AutoBackup%s.tar.gz" % macaddr
+					st = os.stat(os.path.join(path, fn))
+				except:
+					# No box-specific backup found
+					pass
 				self.isActive = True
 				self["status"].setText(_("Last backup date") + ": " + " ".join(FuzzyTime(st.st_mtime, inPast=True)))
 			except Exception, ex:

@@ -25,7 +25,7 @@ USER_AUTOINSTALL=/etc/autoinstall
 INSTALLED=/etc/installed
 TEMP_INSTALLED=/tmp/installed
 RESTORE_TEMP=/tmp/restore.cfg
-MACADDR=`cat /sys/class/net/eth0/address | cut -b 1,2,4,5,7,8,10,11,13,14`
+MACADDR=`cat /sys/class/net/eth0/address | cut -b 1,2,4,5,7,8,10,11,13,14,16,17`
 
 if [ -x /usr/bin/opkg ]
 then
