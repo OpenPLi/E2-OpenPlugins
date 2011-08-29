@@ -4,7 +4,7 @@ import enigma
 from Components.config import config, configfile, \
 			ConfigEnableDisable, ConfigSubsection, \
 			ConfigYesNo, ConfigClock, getConfigListEntry, \
-			ConfigSelection, ConfigOnOff
+			ConfigSelection, ConfigOnOff, ConfigText
 from Screens.MessageBox import MessageBox
 from Screens.Screen import Screen
 from Components.ConfigList import ConfigListScreen
@@ -36,7 +36,7 @@ config.plugins.autobackup = ConfigSubsection()
 config.plugins.autobackup.wakeup = ConfigClock(default = ((3*60) + 0) * 60) # 3:00
 config.plugins.autobackup.enabled = ConfigEnableDisable(default = False)
 config.plugins.autobackup.autoinstall = ConfigOnOff(default = False)
-config.plugins.autobackup.where = ConfigSelection(default = "/media/hdd", choices = getLocationChoices())
+config.plugins.autobackup.where = ConfigText(default = "/media/hdd")
 
 
 # Global variables
@@ -129,9 +129,9 @@ class Config(ConfigListScreen,Screen):
 		self.setup_title = _("AutoBackup Configuration")
 		Screen.__init__(self, session)
 		cfg = config.plugins.autobackup
-		cfg.where.setChoices(getLocationChoices(), cfg.where.value)
+		self.cfgwhere = ConfigSelection(default=cfg.where.value, choices=getLocationChoices())
 		configList = [
-			getConfigListEntry(_("Backup location"), cfg.where),
+			getConfigListEntry(_("Backup location"), self.cfgwhere),
 			getConfigListEntry(_("Daily automatic backup"), cfg.enabled),
 			getConfigListEntry(_("Automatic start time"), cfg.wakeup),
 			getConfigListEntry (_("Create Autoinstall"), cfg.autoinstall),
@@ -159,7 +159,7 @@ class Config(ConfigListScreen,Screen):
 		self.container = enigma.eConsoleAppContainer()
 		self.container.appClosed.append(self.appClosed)
 		self.container.dataAvail.append(self.dataAvail)
-		cfg.where.addNotifier(self.changedWhere)
+		self.cfgwhere.addNotifier(self.changedWhere)
 		self.onClose.append(self.__onClose)
 
 	# for summary:
@@ -176,6 +176,7 @@ class Config(ConfigListScreen,Screen):
 
 	def changedWhere(self, cfg):
 		self.isActive = False
+		config.plugins.autobackup.where.value = cfg.value
 		path = os.path.join(cfg.value, 'backup')
 		if not os.path.exists(path):
 			self["status"].setText(_("No backup present"))
@@ -200,7 +201,7 @@ class Config(ConfigListScreen,Screen):
 			self["key_blue"].setText("")
 
 	def disable(self):
-		cfg = config.plugins.autobackup.where
+		cfg = self.cfgwhere
 		path = os.path.join(cfg.value, 'backup', ".timestamp")
 		try:
 			os.unlink(path)
@@ -209,9 +210,11 @@ class Config(ConfigListScreen,Screen):
 		self.changedWhere(cfg)
 
 	def __onClose(self):
-		config.plugins.autobackup.where.notifiers.remove(self.changedWhere)
+		self.cfgwhere.notifiers.remove(self.changedWhere)
 
 	def save(self):
+		config.plugins.autobackup.where.value = self.cfgwhere.value
+		config.plugins.autobackup.where.save()
 		self.saveAll()
 		self.close(True,self.session)
 
@@ -247,10 +250,11 @@ class Config(ConfigListScreen,Screen):
 		self.showOutput()
 		self.data = ''
 		self["statusbar"].setText(txt)
-		self.changedWhere(config.plugins.autobackup.where)
+		self.changedWhere(self.cfgwhere)
 
-	def dataAvail(self, str):
-		self.data += str
+	def dataAvail(self, s):
+		self.data += s
+		print "[AutoBackup]", s.strip()
 		self.showOutput()
 
 class BackupSelection(Screen):
