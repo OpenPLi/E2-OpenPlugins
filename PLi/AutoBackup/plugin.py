@@ -129,7 +129,18 @@ class Config(ConfigListScreen,Screen):
 		self.setup_title = _("AutoBackup Configuration")
 		Screen.__init__(self, session)
 		cfg = config.plugins.autobackup
-		self.cfgwhere = ConfigSelection(default=cfg.where.value, choices=getLocationChoices())
+		choices=getLocationChoices()
+		if choices:
+			currentwhere = cfg.where.value
+			defaultchoice = choices[0][0] 
+			for k,v in choices:
+				if k == currentwhere:
+					defaultchoice = k
+					break
+		else:
+			defaultchoice = ""
+			choices = [("", _("Nowhere"))]
+		self.cfgwhere = ConfigSelection(default=defaultchoice, choices=choices)
 		configList = [
 			getConfigListEntry(_("Backup location"), self.cfgwhere),
 			getConfigListEntry(_("Daily automatic backup"), cfg.enabled),
@@ -176,25 +187,29 @@ class Config(ConfigListScreen,Screen):
 
 	def changedWhere(self, cfg):
 		self.isActive = False
-		config.plugins.autobackup.where.value = cfg.value
-		path = os.path.join(cfg.value, 'backup')
-		if not os.path.exists(path):
-			self["status"].setText(_("No backup present"))
+		if not cfg.value:
+			self["status"].setText(_("No suitable media found, insert USB stick, flash card or harddisk."))
+			self.isActive = False
 		else:
-			try:
-				st = os.stat(os.path.join(path, ".timestamp"))
+			config.plugins.autobackup.where.value = cfg.value
+			path = os.path.join(cfg.value, 'backup')
+			if not os.path.exists(path):
+				self["status"].setText(_("No backup present"))
+			else:
 				try:
-					macaddr = open('/sys/class/net/eth0/address').read().strip().replace(':','')
-					fn = "PLi-AutoBackup%s.tar.gz" % macaddr
-					st = os.stat(os.path.join(path, fn))
-				except:
-					# No box-specific backup found
-					pass
-				self.isActive = True
-				self["status"].setText(_("Last backup date") + ": " + " ".join(FuzzyTime(st.st_mtime, inPast=True)))
-			except Exception, ex:
-				print "Failed to stat %s: %s" % (path, ex)
-				self["status"].setText(_("Disabled"))
+					st = os.stat(os.path.join(path, ".timestamp"))
+					try:
+						macaddr = open('/sys/class/net/eth0/address').read().strip().replace(':','')
+						fn = "PLi-AutoBackup%s.tar.gz" % macaddr
+						st = os.stat(os.path.join(path, fn))
+					except:
+						# No box-specific backup found
+						pass
+					self.isActive = True
+					self["status"].setText(_("Last backup date") + ": " + " ".join(FuzzyTime(st.st_mtime, inPast=True)))
+				except Exception, ex:
+					print "Failed to stat %s: %s" % (path, ex)
+					self["status"].setText(_("Disabled"))
 		if self.isActive:
 			self["key_blue"].setText(_("Disable"))
 		else:
@@ -202,6 +217,8 @@ class Config(ConfigListScreen,Screen):
 
 	def disable(self):
 		cfg = self.cfgwhere
+		if not cfg.value:
+			return
 		path = os.path.join(cfg.value, 'backup', ".timestamp")
 		try:
 			os.unlink(path)
@@ -230,6 +247,8 @@ class Config(ConfigListScreen,Screen):
 		self["status"].setText(self.data)
 
 	def dobackup(self):
+		if not self.cfgwhere.value:
+			return
 		self.saveAll()
 		# Write config file before creating the backup so we have it all
 		configfile.save()
