@@ -2,7 +2,8 @@ installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/AutoBackup
 
 install_PYTHON = \
 	__init__.py \
-	plugin.py 
+	plugin.py \
+	ui.py
  
 install_DATA = \
 	backup.cfg \
