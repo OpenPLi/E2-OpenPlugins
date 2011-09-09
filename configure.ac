@@ -8,6 +8,9 @@ AC_PYTHON_DEVEL
 
 AC_PROG_CXX
 
+CPPFLAGS="$CPPFLAGS $PYTHON_CPPFLAGS"
+LDFLAGS="$LDFLAGS $PYTHON_LDFLAGS"
+
 AC_ARG_WITH(boxtype,
 	[  --with-boxtype=NAME box type [[none,dm7025,dm800...]]],
 	[BOXTYPE="$withval"],[BOXTYPE="dm800"])
@@ -25,7 +28,6 @@ Extensions/AutoBackup/Makefile
 Extensions/BuienRadar/Makefile
 Extensions/PPanel/Makefile
 Extensions/PPanel/data/Makefile
-Extensions/SoftcamSetup/Makefile
 Extensions/NFSServer/Makefile
 Extensions/Bitrate/Makefile
 Extensions/Bitrate/bitratetool/Makefile
