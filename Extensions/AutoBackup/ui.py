@@ -30,7 +30,7 @@ def getLocationChoices():
 	return result
 
 def getStandardFiles():
-	return [os.path.normpath(n.strip()) for n in open('/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/backup.cfg', 'r')]
+	return [os.path.normpath(n.strip()) for n in open('/usr/lib/enigma2/python/Plugins/Extensions/AutoBackup/backup.cfg', 'r')]
 
 def getSelectedFiles():
 	result = getStandardFiles()

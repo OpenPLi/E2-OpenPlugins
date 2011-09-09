@@ -1,4 +1,4 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/SnmpAgent
+installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/SnmpAgent
 
 install_PYTHON =	\
 	__init__.py \

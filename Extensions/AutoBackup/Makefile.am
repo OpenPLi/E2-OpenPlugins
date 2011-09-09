@@ -1,4 +1,4 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/AutoBackup
+installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/AutoBackup
 
 install_PYTHON = \
 	__init__.py \

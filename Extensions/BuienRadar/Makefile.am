@@ -1,4 +1,4 @@
-installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/BuienRadar
+installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/BuienRadar
 
 install_PYTHON = \
 	__init__.py \

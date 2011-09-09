@@ -1,6 +1,6 @@
 SUBDIRS = data
 
-installdir = $(LIBDIR)/enigma2/python/Plugins/PLi/PPanel
+installdir = $(LIBDIR)/enigma2/python/Plugins/Extensions/PPanel
 
 install_PYTHON =	\
 	__init__.py \

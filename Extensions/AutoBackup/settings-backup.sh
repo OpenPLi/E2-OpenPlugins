@@ -19,7 +19,7 @@ then
 	echo "No destination, aborted"
 	exit 1
 fi
-PLI_BACKUPFILE=/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/backup.cfg
+PLI_BACKUPFILE=/usr/lib/enigma2/python/Plugins/Extensions/AutoBackup/backup.cfg
 USER_BACKUPFILE=/etc/backup.cfg
 USER_AUTOINSTALL=/etc/autoinstall
 INSTALLED=/etc/installed

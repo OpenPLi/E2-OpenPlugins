@@ -19,7 +19,7 @@ autoStartTimer = None
 ##################################
 # Configuration GUI
 
-BACKUP_SCRIPT = "/usr/lib/enigma2/python/Plugins/PLi/AutoBackup/settings-backup.sh"
+BACKUP_SCRIPT = "/usr/lib/enigma2/python/Plugins/Extensions/AutoBackup/settings-backup.sh"
 
 
 def backupCommand():
